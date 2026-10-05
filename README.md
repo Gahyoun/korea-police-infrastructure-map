@@ -1,6 +1,8 @@
 # 전국 경찰 순찰경로 최적화 및 가상순찰(Semi-Agent-Based) 시뮬레이션
 ## 기술 구현 및 이론적 근거 보고서 (개정판)
 
+> 🏆 **[과학치안 아이디어 공모전](https://kipot.or.kr/user/ex19.do) 우수상 (KIST 원장상) 수상**
+
 ---
 
 ## 0. 요약 (Executive Summary)
