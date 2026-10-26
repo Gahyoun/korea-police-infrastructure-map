@@ -112,7 +112,7 @@ photo = img(NOTE / "figures/photo_20261022_songdo.jpg", "photo", "제12회 과�
 facts = [("일자", "2026. 10. 22.(목)"), ("시간", "12:30 – 13:30"), ("장소", "송도컨벤시아 (인천광역시 연수구)"),
          ("계기", "제12회 과학치안 아이디어 공모전 시상식<br>주최 경찰청·과학기술정보통신부 · 주관 과학치안진흥센터·한국과학기술연구원"),
          ("작성", f"{AUTHOR} ({AFFIL})"), ("대상 지역", "경상남도 진주시 · 지구대 5, 파출소 8 · 도로 10m 구간 117,351개"),
-         ("문서", f"연구보고서 초안 v0.2 · {DATE}")]
+         ("문서", f"연구보고서 초안 v0.3 · {DATE}")]
 cover = f"""
 <main class="sheet a4 cover" data-export-page>
  <div class="form-frame"><div class="slogan-gap">{slogan}</div>

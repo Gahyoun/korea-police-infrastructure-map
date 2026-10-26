@@ -1,0 +1,24 @@
+{
+ "R_frac_gt_0.99": 0.024286116010941536,
+ "R_frac_gt_0.5": 0.08120936336290274,
+ "R_frac_lt_0.01": 0.7180594967235047,
+ "road_only_reach_frac": 0.5287982207224481,
+ "road_only_reach_p95_dist_m": 762.1204001417753,
+ "spearman_R_vs_road_only": 0.07208013785976673,
+ "spearman_R_vs_feat_only": 0.33476472152054104,
+ "top5_overlap_R_feat_only": 0.6423464648788676,
+ "rwr_mean_steps": 18.999999999999982,
+ "theta_10_100": 0.8583814000262601,
+ "theta_100_400": 0.589901112712553,
+ "theta_400_1600": 0.6776958284087499,
+ "S_t_at": {
+  "100": 63.32,
+  "400": 150.32,
+  "800": 262.6,
+  "1600": 389.6
+ },
+ "segments_within_tether_mean": 1088.6,
+ "null_random_sites_cov_mean": 0.08710378323108384,
+ "null_random_sites_cov_sd": 0.042093291418211026,
+ "z_ssl_vs_random_sites": 8.882560716246475
+}

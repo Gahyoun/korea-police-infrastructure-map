@@ -201,3 +201,50 @@ cb = fig.colorbar(lc, ax=axs, fraction=.025, pad=.01); cb.set_label("로봇 연�
 cb.outline.set_visible(False)
 fig.savefig(FIG / "fig4_policy_visits.png", bbox_inches="tight"); plt.close(fig)
 print("figures ->", FIG)
+
+# ── fig5 통계물리 점검(statphys_checks.py 결과가 있을 때) ──
+SP = RES / "statphys_curves.npz"
+if SP.exists():
+    C = np.load(SP)
+    chk = json.load(open(RES / "statphys_checks.json", encoding="utf-8"))
+    t, Sm = C["t"], C["S_mean"]
+    fig, axs = plt.subplots(1, 3, figsize=(10.4, 3.5), gridspec_kw=dict(width_ratios=[1.05, 1, 1]))
+    ax = axs[0]
+    for curve in C["S_all"]:
+        ax.plot(t, curve, color="#c9d9ee", lw=.6, zorder=1)
+    ax.plot(t, Sm, color=C_SSL, lw=2.2, zorder=3, label="ABM 평균 S(t)")
+    t0, s0 = 100, Sm[99]
+    for th, ls, lab in ((1.0, ":", "θ = 1 (탄도)"), (0.5, "--", "θ = 1/2 (1차원 확산)")):
+        ax.plot(t, s0 * (t / t0) ** th, color=MUTED, ls=ls, lw=1.1, label=lab)
+    M = chk["segments_within_tether_mean"]
+    ax.axhline(M, color=INK2, lw=.9, ls="-.", label=f"활동반경 내 구간 수 M ≈ {M:.0f}")
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(10, 1600); ax.set_ylim(8, 2500)
+    ax.set_xlabel("걸음 수 t (10m 구간, 1600 = 240분)"); ax.set_ylabel("고유 방문 구간 수 S(t)")
+    ax.legend(fontsize=7, frameon=False, loc="upper left")
+    ax.set_title("(a) 단일 로봇 커버리지 스케일링", fontsize=9, loc="left")
+    # (b) 예산 고정 시 N·S(T) 예측 vs ABM
+    ax = axs[1]
+    steps = {60: 400, 120: 800, 240: 1600}
+    for n, mk in ((5, "o"), (10, "s"), (20, "^")):
+        xs = [n * Sm[steps[T] - 1] for T in (60, 120, 240)]
+        ys = [100 * get("SSL", n, T, "weekly_cov_topR") for T in (60, 120, 240)]
+        ax.plot(xs, ys, ls="", marker=mk, ms=6.5, mfc=C_SSL, mec="white", mew=.8, label=f"{n}대 (T = 60·120·240분)")
+    ax.set_xscale("log"); ax.minorticks_off()
+    ax.set_xticks([1000, 2000, 4000, 8000], ["1,000", "2,000", "4,000", "8,000"])
+    ax.set_xlabel("예측 커버리지 지수 N·S(T)"); ax.set_ylabel("위험 상위 5% 주 1회 통과 (%)")
+    ax.grid(color="#ececea", lw=.6); ax.set_axisbelow(True)
+    ax.legend(fontsize=7, frameon=False, loc="upper left")
+    ax.set_title("(b) N·S(T) 지수와 ABM 결과", fontsize=9, loc="left")
+    # (c) 무작위 기지 null
+    ax = axs[2]
+    nc = 100 * C["null_cov"]
+    ax.hist(nc, bins=np.linspace(0, 50, 21), color="#c9cdd1", edgecolor="white", label=f"무작위 기지 (n = {len(nc)})")
+    obs = 100 * get("SSL", 10, 120, "weekly_cov_topR")
+    ax.axvline(obs, color=C_SSL, lw=2.2, label=f"SSL 기지 {obs:.1f}%")
+    ax.set_yticks(range(0, 4)); ax.set_ylim(0, 3.6)
+    ax.text(obs - 1, 2.5, f"z = {chk['z_ssl_vs_random_sites']:.1f}", ha="right", fontsize=8.5, color=INK)
+    ax.set_xlabel("위험 상위 5% 주 1회 통과 (%)"); ax.set_ylabel("반복 수")
+    ax.legend(fontsize=7, frameon=False, loc="upper left")
+    ax.set_title("(c) 기지 선정 null model (10대 × 120분)", fontsize=9, loc="left")
+    fig.tight_layout(); fig.savefig(FIG / "fig5_statphys_checks.png"); plt.close(fig)
+    print("fig5 ->", FIG)

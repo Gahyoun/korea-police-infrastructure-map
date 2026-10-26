@@ -2,7 +2,7 @@
 
 **연구보고서 초안** · 경상국립대학교 소재지 진주 사례
 연구일시: 2026. 10. 22.(목) 12:30–13:30 · 장소: 송도컨벤시아(인천광역시 연수구)
-작성: 김가현 (테크노베이션파트너스 · 경상국립대학교 졸업생) · 초안 v0.2 (2026-10-26)
+작성: 김가현 (테크노베이션파트너스 · 경상국립대학교 졸업생) · 초안 v0.3 (2026-10-26)
 
 ---
 
@@ -24,8 +24,9 @@
    10대부터 연 529–901회 지났다.
 4. **대수 vs 순찰시간.** 위험이 여러 곳에 흩어진 준지도학습 위험장에서는 같은 로봇-시간이면 **대수를 늘리는 편**이
    유리했다(하루 40 로봇-시간: 5대 × 240분 29% < 10대 × 120분 46% < 20대 × 60분 58%). 위험이 한 곳에 몰린
-   경우(휴리스틱)는 반대로 순찰시간 연장이 유리했다. **배치 규모는 어떤 위험 지도를 믿느냐에 달려 있으므로 현장 검증이
-   먼저다.**
+   경우(휴리스틱)는 반대로 순찰시간 연장이 유리했다. 두 결과는 로봇 1대의 고유 커버리지가 S(T) ∝ T^θ(θ ≈ 0.6–0.7)로
+   준선형 증가하고, 대수의 효용은 서로 떨어진 위험 군집 수 n_c에서 끊긴다는 하나의 스케일링 논리로 설명된다(5.3절).
+   **배치 규모는 어떤 위험 지도를 믿느냐에 달려 있으므로 현장 검증이 먼저다.**
 5. **배치 제안.** 1단계로 가좌동 대학가에 2대를 12주 시범 운용하며 지구대 경찰관이 위험 구간 레이블을 매주 추가하고,
    위험장을 다시 학습해 2단계(금산·하대·상대 권역 확장)의 대수와 위치를 정한다.
 
@@ -167,6 +168,9 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 | 전파 | F ← αSF + (1 − α)Y, α = 0.95, 300회 반복, 대칭 정규화(Zhou 외, 2004) + 클래스 질량 정규화 |
 | 불확실성 | 음성 표본을 20회 다시 뽑아 평균(위험장 R)과 표준편차 |
 
+R은 범죄 발생 확률이 아니라 “가좌동 레이블에서 출발한 확산이 음성 레이블보다 상대적으로 얼마나 잘 도달하는가”를 나타내는
+점수다. 해석상 주의점은 5.3절에 정리했다.
+
 ### 4.3 로봇 에이전트
 
 | 요소 | 설정 |
@@ -222,7 +226,8 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 전체 결과는 `results/ssl_abm_scenarios.csv`에 있다.
 
 1. **표적 정확도.** 같은 대수·시간에서 SSL은 위험 상위 구간 통과율이 HEU보다 4배 이상(5–10대에서는 수십 배) 높았다. HEU는 20대 × 240분에서도
-   가좌동 레이블 구간을 지나지 않았다.
+   가좌동 레이블 구간을 지나지 않았다. 단 위험 상위 구간은 SSL이 기지 선정에 쓴 R로 정의되므로 이 비교는 HEU에 불리하게
+   순환적이다. 정책과 독립된 지표는 레이블 구간 통과뿐이다(5.3절 (4)).
 2. **평균과 표적의 절충.** 진주 평균 S는 HEU가 더 많이 올랐다(10대 × 120분: +2.4 vs +1.2). HEU가 도로가 촘촘한
    구도심을 넓게 도는 반면 SSL은 위험 구간에 집중하기 때문이다. 평균 지표만 보면 잘못된 정책을 고를 수 있다.
 3. **대수 vs 순찰시간.** SSL 위험이 금산·하대·상대·개양 등 여러 권역에 흩어져 있어, 같은 로봇-시간이면 대수를 늘리는
@@ -235,6 +240,57 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 ![그림 4](figures/fig4_policy_visits.png)
 
 *그림 4. 같은 10대 × 120분에서 로봇 연간 통과 분포. (a) HEU는 구도심, (b) SSL은 하대·상대·가좌동(★)을 돈다.*
+
+### 5.3 통계물리적 해석
+
+`sim/statphys_checks.py`로 위험장과 ABM을 점검했다. 각 항목의 성격(모형 기반 / 수치 / 해석적)을 함께 적는다.
+
+![그림 5](figures/fig5_statphys_checks.png)
+
+*그림 5. (a) 단일 로봇이 방문한 고유 구간 수 S(t)(SSL 기지 5곳 × 시드 5, 가는 선은 개별 실행). 점선은 θ = 1, 파선은
+θ = 1/2 기준선, 일점쇄선은 활동반경 600m 안 구간 수. (b) 예측 커버리지 지수 N·S(T)와 ABM의 위험 상위 5% 주 1회 통과율
+(SSL 9개 시나리오, Spearman ρ = 0.97). (c) 같은 이동 규칙에서 기지만 무작위로 고른 null 8회와 SSL 기지(10대 × 120분).*
+
+**(1) 측정 대상: R은 포화된 이봉 점수다** (수치). 전파식 F = (1 − α)(I − αŜ)⁻¹Y는 재시작 확률 1 − α인
+random walk with restart(RWR)의 정상분포이고(Tong, Faloutsos & Pan, 2006), R은 양성·음성 레이블에서 출발한 두 RWR
+질량의 상대 비다. 극한을 보면 α → 0이면 레이블 밖으로 전혀 퍼지지 않고, α → 1이면 정상분포가 차수 분포로 수렴해
+레이블 정보가 사라진다. 레이블 수를 고정한 채 레이블 없는 노드만 늘리면 해가 평평해지고 레이블 근처에만 스파이크가 남는
+퇴화도 알려져 있다(Nadler, Srebro & Zhou, 2009). 진주 결과에서 R < 0.01이 71.8%, R > 0.99가 2.4%로 분포가 양 끝에
+몰렸고, 위험 상위 5% 경계(R ≈ 0.84)가 포화 구간 안에 있다. 따라서 상위 5% 안의 순위에는 정보가 적고, R은 연속 위험도보다
+**레이블 쪽 도달 영역(basin)의 분류**로 읽어야 한다.
+
+**(2) 무엇이 위험을 퍼뜨렸나: 그래프 분해** (수치 + 해석적). 재시작 전 평균 걸음 수는 α/(1 − α) = 19이므로, 도로망만으로
+퍼지는 길이는 10m 구간 기준 확산 √19 × 10m ≈ 44m, 직진 상한 190m 수준이다. 실제로 도로망 간선만으로 전파한 R은 전체 R과
+순위상관 0.07, 특징공간 kNN만으로 전파한 R은 0.33이었고 위험 상위 5% 겹침은 64%였다. **R의 공간 구조는 대부분 특징
+유사도라는 원거리 지름길에서 온다.** “위험이 도로를 따라 퍼진다”는 해석은 근거가 없고, “레이블과 특징이 비슷한 구간”이
+정확한 해석이다. 또 확산 길이가 구간 길이 ℓ에 비례(ξ ∝ ℓ√(α/(1 − α)))하므로, 10m라는 인위적 이산화를 바꾸면 결과가
+달라질 수 있다. 교차로 사이 구간 단위로 거칠게 묶어(coarse-graining) 다시 계산해 이산화 불변성을 확인해야 한다.
+
+**(3) 커버리지 스케일링과 N–T 절충** (수치 + 해석적 논증). 로봇 1대의 고유 방문 구간 수 S(t)의 국소 지수
+θ = d ln S/d ln t는 0.86(t = 10–100), 0.59(100–400), 0.68(400–1,600)이었다. 기준값은 1차원 확산 S ∝ t^(1/2)과
+2차원 격자 S ≈ πt/ln t(Dvoretzky & Erdős, 1951; Montroll & Weiss, 1965; 국소 지수 1 − 1/ln t ≈ 0.83–0.86)다. 관측치는
+그 사이에 있어, 도로망이 국소적으로 준1차원(quasi-1D)이고 활동반경 경계가 있는 계와 맞는다(Barthelemy, 2011; Masuda,
+Porter & Lambiotte, 2017). 240분(1,600걸음)에도 활동반경 내 구간 M ≈ 1,089개 중 S/M ≈ 0.36만 덮었다. 2차원 덮개
+시간 규모 M ln²M ≈ 5 × 10⁴걸음(Dembo 외, 2004)보다 훨씬 이전, 즉 **아직 커버리지가 자라는 영역**이다.
+
+서로 겹치지 않는 로봇 N대의 총 커버리지를 N·S(T)로 근사하면, 하루 로봇-시간 B ∝ N·T를 고정했을 때
+N·S(T) ∝ B·T^(θ − 1)이다. θ < 1이므로 T를 줄이고 N을 늘릴수록 커진다. 단 이 논리는 N이 서로 떨어진 위험 군집 수 n_c
+이하일 때만 성립한다. n_c를 넘는 로봇은 위험이 없는 곳에 놓여 효용이 사라지고, 그 뒤로는 T만 남은 변수가 된다.
+
+- SSL 위험장은 금산·하대·상대·개양 등 여러 군집에 퍼져 있어(n_c가 크다) 대수 증가가 유리하다. 예측 N·S(T)는 하루 40
+  로봇-시간에서 5대 × 240분 1,948 < 10대 × 120분 2,626 < 20대 × 60분 3,006으로 ABM 순서(29% < 46% < 58%)와 같고,
+  80 로봇-시간에서도 10대 × 240분 3,896 < 20대 × 120분 5,252(ABM 50% < 67%)로 같다. 9개 시나리오 전체 순위상관은
+  ρ = 0.97이다.
+- HEU 사각지대는 상위 3개 기지 반경 581m 안에 몰려 n_c ≈ 3이다. N > 3에서는 대수 효용이 사라지고 순찰시간 연장만
+  남는다.
+
+5.2절의 상반된 두 결론은 이렇게 θ와 n_c 두 숫자로 함께 설명된다. 이 결과는 ABM 내부의 일관성(모형 기반)이며 현장 측정이
+아니다.
+
+**(4) Null model과 순환성** (수치). 이동 규칙은 그대로 두고 기지만 무작위(900m 간격)로 고른 8회 반복에서 위험 상위 5%
+주 1회 통과율은 8.7% ± 4.2%, SSL 기지는 46.1%로 z = 8.9였다. 다만 기지 선정과 평가가 같은 R을 쓰므로, 이 z는 “R로 기지를
+고르면 R 상위 구간을 더 자주 지난다”는 **내부 일관성 검정**이지 위험 예측력의 증거가 아니다. 정책과 독립된 평가는 레이블
+구간 통과뿐이고, 레이블이 한 지점에 몰려 있어 유효 표본은 n_eff ≈ 1이다. 외생 검증 방법은 7.1절에 적었다.
 
 ---
 
@@ -300,6 +356,20 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 3. 로봇 1회 통과의 억제 효과는 실증 근거가 없어 결과를 노출(통과 횟수)로만 측정했다.
 4. 보행자 혼잡·경사·배터리·기상, 로봇과 순찰차의 협업은 반영하지 않았다.
 5. 진주 관할을 행정경계가 아닌 최근접 관서로 정의해 시 경계부 구간이 일부 섞이거나 빠질 수 있다.
+6. 위험장 R은 양 끝에 몰린 포화 점수이고, 공간 구조 대부분이 도로망이 아닌 특징 유사도에서 온다(5.3절 (1)·(2)).
+7. 결과가 10m 구간 이산화와 주 1회라는 임의 임계값에 의존할 수 있다.
+8. 정책 비교 지표가 SSL이 쓴 R로 정의되어 순환적이고, 외생 검증 표본은 n_eff ≈ 1이다(5.3절 (4)).
+
+### 7.1 통계물리 후속 과제
+
+| 질문 | 관측량·방법 | 기준(null)·검증 |
+|---|---|---|
+| 위험장이 다른 곳에서도 맞는가 | 영남권 다른 도시의 사각지대 레이블로 학습하고 진주 레이블로 시험(leave-one-city-out) | 공간 블록 교차검증(Roberts 외, 2017) |
+| 이산화에 불변인가 | 교차로 사이 구간 단위로 묶은 그래프에서 R과 S(t) 재계산 | 구간 길이 ℓ를 바꿔도 θ와 순위가 유지되는지 |
+| 예측 불가능성과 커버리지의 절충 | 로봇 경로의 엔트로피율 h = −Σᵢ πᵢ Σⱼ Pᵢⱼ log Pᵢⱼ, 방문 간격의 burstiness B | 같은 커버리지에서 h가 최대인 정책(Koper식 무작위 순회; Goh & Barabási, 2008; Song 외, 2010) |
+| 범죄가 옮겨 가는가, 사라지는가 | 반응-확산 범죄 모형(Short 외, 2008; 2010)에 로봇 억제항 결합 | 아임계·초임계 핫스팟에서 전이(displacement)와 소산(dissipation) 비교(D'Orsogna & Perc, 2015) |
+| 상대가 순찰을 학습하면 | Stackelberg 순찰 게임(Tambe, 2011) | 무작위화한 순찰 일정의 기대 손실 |
+| “덮었다”의 정의 | 주 1회 임계 대신 점유율 1 − e^(−λτ) | λ: 구간 방문률, τ: 잔여 억제 시간(현장 측정) |
 
 ---
 
@@ -315,17 +385,31 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 ## 참고문헌
 
 - Ariel, B., Bland, M., & Sutherland, A. (2017). ‘Lowering the threshold of effective deterrence’ — Testing the effect of private security agents in public spaces on crime: A randomized controlled trial in a mass transit system. *PLoS ONE, 12*(12).
+- Barthelemy, M. (2011). Spatial networks. *Physics Reports, 499*(1–3), 1–101. https://doi.org/10.1016/j.physrep.2010.11.002
 - Bonabeau, E. (2002). Agent-based modeling: Methods and techniques for simulating human systems. *Proceedings of the National Academy of Sciences, 99*(suppl. 3), 7280–7287. https://doi.org/10.1073/pnas.082080899
 - Braga, A. A., Turchan, B., Papachristos, A. V., & Hureau, D. M. (2019). Hot spots policing of small geographic areas effects on crime. *Campbell Systematic Reviews, 15*(3), e1046. https://doi.org/10.1002/cl2.1046
 - Cohen, L. E., & Felson, M. (1979). Social change and crime rate trends: A routine activity approach. *American Sociological Review, 44*(4), 588–608. https://doi.org/10.2307/2094589
+- Dembo, A., Peres, Y., Rosen, J., & Zeitouni, O. (2004). Cover times for Brownian motion and random walks in two dimensions. *Annals of Mathematics, 160*(2), 433–464.
+- D'Orsogna, M. R., & Perc, M. (2015). Statistical physics of crime: A review. *Physics of Life Reviews, 12*, 1–21. https://doi.org/10.1016/j.plrev.2014.11.001
+- Dvoretzky, A., & Erdős, P. (1951). Some problems on random walk in space. *Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability*, 353–367.
+- Goh, K.-I., & Barabási, A.-L. (2008). Burstiness and memory in complex systems. *EPL, 81*(4), 48002. https://doi.org/10.1209/0295-5075/81/48002
 - Groff, E. R. (2007). Simulation for theory testing and experimentation: An example using routine activity theory and street robbery. *Journal of Quantitative Criminology, 23*(2), 75–103. https://doi.org/10.1007/s10940-006-9021-z
 - Kelling, G. L., Pate, T., Dieckman, D., & Brown, C. E. (1974). *The Kansas City preventive patrol experiment: A summary report.* Police Foundation.
 - Koper, C. S. (1995). Just enough police presence: Reducing crime and disorderly behavior by optimizing patrol time in crime hot spots. *Justice Quarterly, 12*(4), 649–672. https://doi.org/10.1080/07418829500096231
 - Malleson, N., Heppenstall, A., & See, L. (2010). Crime reduction through simulation: An agent-based model of burglary. *Computers, Environment and Urban Systems, 34*(3), 236–250. https://doi.org/10.1016/j.compenvurbsys.2009.10.005
+- Masuda, N., Porter, M. A., & Lambiotte, R. (2017). Random walks and diffusion on networks. *Physics Reports, 716–717*, 1–58. https://doi.org/10.1016/j.physrep.2017.07.007
+- Montroll, E. W., & Weiss, G. H. (1965). Random walks on lattices. II. *Journal of Mathematical Physics, 6*(2), 167–181. https://doi.org/10.1063/1.1704269
+- Nadler, B., Srebro, N., & Zhou, X. (2009). Statistical analysis of semi-supervised learning: The limit of infinite unlabelled data. *Advances in Neural Information Processing Systems, 22*, 1330–1338.
 - Ratcliffe, J. H., Taniguchi, T., Groff, E. R., & Wood, J. D. (2011). The Philadelphia foot patrol experiment: A randomized controlled trial of police patrol effectiveness in violent crime hotspots. *Criminology, 49*(3), 795–831. https://doi.org/10.1111/j.1745-9125.2011.00240.x
+- Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, G., … Dormann, C. F. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. *Ecography, 40*(8), 913–929. https://doi.org/10.1111/ecog.02881
 - Sherman, L. W., & Weisburd, D. (1995). General deterrent effects of police patrol in crime “hot spots”: A randomized, controlled trial. *Justice Quarterly, 12*(4), 625–648. https://doi.org/10.1080/07418829500096221
+- Short, M. B., Brantingham, P. J., Bertozzi, A. L., & Tita, G. E. (2010). Dissipation and displacement of hotspots in reaction-diffusion models of crime. *Proceedings of the National Academy of Sciences, 107*(9), 3961–3965. https://doi.org/10.1073/pnas.0910921107
+- Short, M. B., D'Orsogna, M. R., Pasour, V. B., Tita, G. E., Brantingham, P. J., Bertozzi, A. L., & Chayes, L. B. (2008). A statistical model of criminal behavior. *Mathematical Models and Methods in Applied Sciences, 18*(supp01), 1249–1267. https://doi.org/10.1142/S0218202508003029
+- Song, C., Qu, Z., Blumm, N., & Barabási, A.-L. (2010). Limits of predictability in human mobility. *Science, 327*(5968), 1018–1021. https://doi.org/10.1126/science.1177170
+- Tambe, M. (2011). *Security and game theory: Algorithms, deployed systems, lessons learned.* Cambridge University Press.
 - Telep, C. W., Mitchell, R. J., & Weisburd, D. (2014). How much time should the police spend at crime hot spots? Answers from a police agency directed randomized field trial in Sacramento, California. *Justice Quarterly, 31*(5), 905–933. https://doi.org/10.1080/07418825.2012.710645
 - Weisburd, D. (2015). The law of crime concentration and the criminology of place. *Criminology, 53*(2), 133–157. https://doi.org/10.1111/1745-9125.12070
+- Tong, H., Faloutsos, C., & Pan, J.-Y. (2006). Fast random walk with restart and its applications. *Proceedings of the 6th IEEE International Conference on Data Mining*, 613–622.
 - Zhou, D., Bousquet, O., Lal, T. N., Weston, J., & Schölkopf, B. (2004). Learning with local and global consistency. *Advances in Neural Information Processing Systems, 16*, 321–328.
 - Zhu, X., & Ghahramani, Z. (2002). *Learning from labeled and unlabeled data with label propagation* (Technical Report CMU-CALD-02-107). Carnegie Mellon University.
 - Zhu, X., Ghahramani, Z., & Lafferty, J. (2003). Semi-supervised learning using Gaussian fields and harmonic functions. *Proceedings of the 20th International Conference on Machine Learning*, 912–919.
@@ -351,6 +435,7 @@ FDE(Forward Deployed Engineering)는 엔지니어가 운영 현장에 들어가 
 D=research-notes/2026-10-22_jinju-patrol-robot-ssl-abm
 python3 $D/sim/jinju_semi_sim.py     # 구간 특징 재구성 + HEU 전체 격자(results/scenarios.csv), 약 3분
 python3 $D/sim/ssl_abm.py            # 준지도학습 위험장 + HEU·SSL 정책 비교, 약 3분
+python3 $D/sim/statphys_checks.py    # 위험장 포화·그래프 분해·S(t) 스케일링·무작위 기지 null, 약 4분
 python3 $D/sim/make_figures.py [NotoSansKR TTF 폴더]
 ```
 

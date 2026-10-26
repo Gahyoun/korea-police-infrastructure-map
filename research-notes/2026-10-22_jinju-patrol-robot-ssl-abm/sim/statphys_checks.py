@@ -127,6 +127,8 @@ def main():
     res["null_random_sites_cov_mean"] = float(np.mean(null_cov))
     res["null_random_sites_cov_sd"] = float(np.std(null_cov, ddof=1))
     res["z_ssl_vs_random_sites"] = float((obs - np.mean(null_cov)) / np.std(null_cov, ddof=1))
+    np.savez_compressed(OUT / "statphys_curves.npz", t=t, S_mean=Sm, S_all=np.array(curves),
+                        null_cov=np.array(null_cov), R_hist=np.histogram(R, bins=50, range=(0, 1))[0])
     json.dump(res, open(OUT / "statphys_checks.json", "w"), indent=1)
     print(json.dumps(res, indent=1))
 

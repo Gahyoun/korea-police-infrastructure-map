@@ -38,6 +38,8 @@
 - 10대 × 120분에서 위험 상위 5% 구간 주 1회 통과율: 휴리스틱 **2.4%** vs 준지도학습 **46.1%**.
 - 휴리스틱은 20대 × 240분에서도 가좌동 사각지대를 **0회** 통과, 준지도학습은 10대부터 연 **529–901회**.
 - 위험이 금산·하대·상대·개양에 흩어진 진주에서는 같은 로봇-시간이면 **대수 증가**가 유리(40 로봇-시간: 29% → 46% → 58%).
+- 통계물리 점검: 로봇 1대의 고유 커버리지는 S(T) ∝ T^θ (θ ≈ 0.6–0.7)로 준선형 → 같은 예산이면 N·S(T)가 큰 쪽(대수 증가)이 유리하고, 이 효용은 위험 군집 수 n_c에서 끊김. N·S(T) 지수와 ABM 결과 순위상관 ρ = 0.97, 무작위 기지 null 대비 z = 8.9(단, 평가가 R에 의존하는 내부 일관성 검정).
+- 위험장 R은 양 끝에 몰린 포화 점수이고 공간 구조 대부분이 특징 유사도에서 옴(도로망 단독 전파와 순위상관 0.07) → “레이블과 비슷한 구간”으로 해석.
 - 진주의 첫 단계는 대규모 배치가 아니라 **가좌동 대학가 2대 × 12주 시범으로 현장 레이블을 모으는 일**.
 
 ## 4. 산출물
@@ -47,9 +49,10 @@
 | [report.md](report.md) | 연구보고서 초안 (Markdown) |
 | [report.html](report.html) | 연구보고서 초안 (GNU 템플릿 A4, 폰트·그림 내장) |
 | [report.pdf](report.pdf) | 같은 내용 PDF |
-| [figures/](figures/) | 그림 4종 + 현장 사진 (서명 이미지는 `figures/signature.png`로 두면 빌드 시 마지막 쪽에 삽입) |
+| [figures/](figures/) | 그림 5종 + 현장 사진 (서명 이미지는 `figures/signature.png`로 두면 빌드 시 마지막 쪽에 삽입) |
 | [sim/jinju_semi_sim.py](sim/jinju_semi_sim.py) | 진주 구간 추출·특징 재구성·휴리스틱 로봇 격자 |
 | [sim/ssl_abm.py](sim/ssl_abm.py) | 준지도학습 위험장 + 정책 비교 ABM |
+| [sim/statphys_checks.py](sim/statphys_checks.py) | 통계물리 점검: 위험장 포화, 그래프 분해, S(t) 스케일링, 무작위 기지 null |
 | [sim/make_figures.py](sim/make_figures.py) | 그림 생성 |
 | [sim/build_report.py](sim/build_report.py), [sim/paginate.mjs](sim/paginate.mjs) | GNU 템플릿 보고서 조판 |
 | [results/](results/) | `ssl_abm_scenarios.csv`, `ssl_model.json`, `scenarios.csv`, `robot_sites.json` 등 |
