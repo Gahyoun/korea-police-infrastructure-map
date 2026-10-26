@@ -2,6 +2,8 @@
 ## 기술 구현 및 이론적 근거 보고서 (개정판)
 
 > 🏆 **[과학치안 아이디어 공모전](https://kipot.or.kr/user/ex19.do) 우수상 (KIST 원장상) 수상** · [상장 보기 (PDF)](assets/KIPoT_award.pdf)
+>
+> 📓 후속 연구노트: [진주시 무인순찰로봇 배치 세미 시뮬레이션 (2026-10-22)](research-notes/2026-10-22_jinju-patrol-robot-ssl-abm/)
 
 ---
 
