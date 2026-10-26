@@ -10,8 +10,11 @@ GNU template: https://github.com/Gahyoun/gnu-network-science-skills/tree/main/te
 """
 import base64
 import html
+import json
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import markdown
@@ -83,6 +86,10 @@ report_css = """
 .sign-cell{display:flex;align-items:center;gap:8mm;font-weight:700}
 .sign-img{height:16mm;width:auto}
 .sign-slot{display:inline-flex;align-items:center;justify-content:center;width:42mm;height:16mm;border:1px solid #b1b8be;color:var(--ui-subtle);font-weight:400;font-size:9pt}
+.math-display{margin:1mm 0 3mm;overflow-x:auto}
+.math-display .katex-display{margin:0}
+.report-body .katex{font-size:1.06em}
+.report-body td .katex{font-size:1em}
 .report-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:5mm;padding:0 6mm 3.5mm 9mm;min-height:15mm}
 .report-foot .pno{font-size:9pt;color:var(--ui-subtle);font-variant-numeric:tabular-nums}
 .report-foot .identity .logo{height:7.6mm}
@@ -92,7 +99,38 @@ report_css = """
 md = (NOTE / "report.md").read_text(encoding="utf-8")
 body_md = md[md.index("## 요약"):]
 body_md = re.sub(r"^---\s*$", "", body_md, flags=re.M)
+
+# ── LaTeX 수식: 코드 블록을 보호한 뒤 $$…$$·$…$를 자리표시자로 빼고 KaTeX로 렌더링 ──
+code = []
+def keep_code(m):
+    code.append(m.group(0))
+    return f"CODEPH{len(code) - 1}X"
+body_md = re.sub(r"```.*?```|`[^`\n]+`", keep_code, body_md, flags=re.S)
+math = []
+def take_math(m):
+    disp = m.group(1) is not None
+    math.append({"tex": (m.group(1) if disp else m.group(2)).strip(), "display": disp})
+    return f"MATHPH{len(math) - 1}X"
+body_md = re.sub(r"\$\$(.+?)\$\$|\$([^$\n]+?)\$", take_math, body_md, flags=re.S)
+body_md = re.sub(r"CODEPH(\d+)X", lambda m: code[int(m.group(1))], body_md)
+with tempfile.TemporaryDirectory() as tmp:
+    src, dst = Path(tmp) / "in.json", Path(tmp) / "out.json"
+    src.write_text(json.dumps(math, ensure_ascii=False), encoding="utf-8")
+    subprocess.run(["node", str(HERE / "render_math.mjs"), str(src), str(dst)], check=True, cwd=HERE)
+    rendered = json.loads(dst.read_text(encoding="utf-8"))
+
 body = markdown.markdown(body_md, extensions=["tables", "fenced_code"])
+def put_math(m):
+    i = int(m.group(1))
+    return f'<div class="math-display">{rendered[i]}</div>' if math[i]["display"] else rendered[i]
+body = re.sub(r"<p>\s*(MATHPH\d+X)\s*</p>", lambda m: put_math(re.match(r"MATHPH(\d+)X", m.group(1))), body)
+body = re.sub(r"MATHPH(\d+)X", put_math, body)
+
+# KaTeX CSS: 글꼴은 woff2만 base64로 내장(오프라인 출력)
+kcss = (HERE / "node_modules/katex/dist/katex.min.css").read_text(encoding="utf-8")
+kfont = HERE / "node_modules/katex/dist"
+kcss = re.sub(r"src:url\((fonts/[^)]+\.woff2)\) format\(\"woff2\"\)(,url\([^)]+\) format\(\"[a-z]+\"\))*",
+              lambda m: f'src:url({b64(kfont / m.group(1), "font/woff2")}) format("woff2")', kcss)
 
 # 그림 + 기울임 캡션 → figure
 def fig(m):
@@ -146,7 +184,7 @@ page_tpl = f"""
 doc = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="gnu-template-kind" content="report"><title>{TITLE} — {SUBTITLE}</title>
-<style>{fonts}{theme}{report_css}</style></head><body>
+<style>{fonts}{kcss}{theme}{report_css}</style></head><body>
 {cover}
 <div id="flow">{body}{sign_block}</div>
 {page_tpl}

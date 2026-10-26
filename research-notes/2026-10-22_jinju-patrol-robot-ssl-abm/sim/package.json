@@ -1,0 +1,7 @@
+{
+  "name": "jinju-report-build",
+  "private": true,
+  "type": "module",
+  "description": "보고서 수식(LaTeX) 렌더링: KaTeX",
+  "dependencies": {"katex": "0.16.11"}
+}
