@@ -5,7 +5,7 @@
 >
 > 📓 후속 연구노트: [진주시 무인순찰로봇 배치 세미 시뮬레이션 (2026-10-22)](research-notes/2026-10-22_jinju-patrol-robot-ssl-abm/)
 >
-> 🧭 **처음 오셨나요?** 수식 없이 그림과 비유로 따라가는 [10분 입문 가이드](https://gahyoun.github.io/korea-police-infrastructure-map/guide.html) — 가상 순찰 1년을 직접 돌려 보고, 결과 지도를 읽는 법까지 정리했습니다.
+> 🧭 **처음 오셨나요?** 수식 없이 그림과 비유로 따라가는 [10분 입문 가이드](https://gahyoun.github.io/korea-police-infrastructure-map/guide.html) — 가상 순찰 1년을 직접 돌려 보고, 결과 지도를 읽는 법까지 정리했습니다
 
 ---
 
