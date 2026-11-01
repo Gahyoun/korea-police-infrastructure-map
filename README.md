@@ -4,6 +4,8 @@
 > 🏆 **[과학치안 아이디어 공모전](https://kipot.or.kr/user/ex19.do) 우수상 (KIST 원장상) 수상** · [상장 보기 (PDF)](assets/KIPoT_award.pdf)
 >
 > 📓 후속 연구노트: [진주시 무인순찰로봇 배치 세미 시뮬레이션 (2026-10-22)](research-notes/2026-10-22_jinju-patrol-robot-ssl-abm/)
+>
+> 🧭 **처음 오셨나요?** 수식 없이 그림과 비유로 따라가는 [10분 입문 가이드](https://gahyoun.github.io/korea-police-infrastructure-map/guide.html) — 중고등학생, 비전공자, 시민 누구나 쉽게 이해할 수 있도록 연구 내용 정리
 
 ---
 
