@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>입문 가이드 · 전국 경찰 순찰 안전지도</title>
+<meta name="description" content="중고등학생과 비전공자를 위한 입문 가이드. 가상의 순찰차가 1년 동안 지도 위를 움직이며 무엇을 보여주는지 그림과 비유로 설명합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F1E8; --paper-2:#EDE7DA; --card:#FBF9F4;
+  --ink:#1E2738; --ink-2:#4A5468; --ink-3:#7C8494; --line:#D9D2C3;
+  --navy:#1D3557;            /* 사이트 헤더 톤 */
+  --patrol:#2C5F8E;          /* 순찰 */
+  --people:#D0613F;          /* 사람/수요 */
+  --resource:#2D8473;        /* 치안 자원 */
+  --mustard:#D99A2B;         /* 강조 */
+  --road:#FFFFFF; --block:#E6E0D2;
+  --serif:"Noto Serif KR",serif;
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.8;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--patrol);text-underline-offset:3px}
+a:hover{color:var(--navy)}
+b,strong{font-weight:600;color:var(--ink)}
+img,svg{max-width:100%}
+
+/* ── 상단바: 기존 사이트 내비와 같은 구조 ── */
+.topbar{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff}
+.topbar .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:10px 20px}
+.brand{color:#fff;text-decoration:none;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.brand .dot{width:22px;height:22px;border:1.5px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:11px}
+.topnav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{color:#D5DEEA;text-decoration:none;font-size:13.5px;padding:5px 10px;border-radius:4px;white-space:nowrap}
+.topnav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.topnav a.on{background:#fff;color:var(--navy);font-weight:600}
+.progress{height:3px;background:var(--mustard);width:0;transition:width .1s linear}
+
+/* ── 표지 ── */
+.cover{max-width:1180px;margin:0 auto;padding:64px 20px 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--people);text-transform:uppercase}
+.cover h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,4.6vw,54px);line-height:1.28;margin:14px 0 18px;letter-spacing:-.01em}
+.cover h1 em{font-style:normal;background:linear-gradient(transparent 62%,rgba(217,154,43,.38) 62%)}
+.cover .lead{font-size:18.5px;color:var(--ink-2);margin:0 0 26px;max-width:34em}
+.cover-meta{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;color:var(--ink-3)}
+.cover-meta span b{color:var(--ink-2);font-weight:600}
+.cover-art{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px;box-shadow:0 1px 0 var(--line),0 18px 40px -28px rgba(30,39,56,.45)}
+.cover-art figcaption{font-size:12.5px;color:var(--ink-3);padding:8px 4px 0;display:flex;justify-content:space-between;gap:10px}
+
+/* ── 본문 레이아웃 ── */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px}
+.toc{position:sticky;top:76px;align-self:start;padding-top:36px;font-size:14px}
+.toc .t{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;color:var(--ink-3);margin-bottom:10px}
+.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+.toc li a{display:block;padding:6px 0 6px 14px;margin-left:-1px;color:var(--ink-3);text-decoration:none;border-left:2px solid transparent;line-height:1.45}
+.toc li a .n{font-family:var(--mono);font-size:11.5px;margin-right:6px}
+.toc li a.on{color:var(--ink);border-left-color:var(--people);font-weight:600}
+main{min-width:0;padding-bottom:40px}
+
+.how{margin:36px 0 10px;padding:22px 24px;background:var(--card);border:1px solid var(--line);border-radius:6px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.how h2{grid-column:1/-1;margin:0;font-size:15px;font-family:var(--sans);font-weight:700;letter-spacing:.02em}
+.how div{font-size:14.5px;line-height:1.65;color:var(--ink-2)}
+.how div b.ht{display:block;color:var(--ink);margin-bottom:4px;font-size:15px}
+.how .k{font-family:var(--mono);color:var(--people);font-size:12px;display:block}
+
+section.ch{padding:64px 0 8px;border-bottom:1px dashed var(--line)}
+section.ch:last-of-type{border-bottom:0}
+.chno{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;color:var(--people)}
+.ch h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,36px);line-height:1.35;margin:8px 0 18px;letter-spacing:-.01em}
+.ch h3{font-size:19px;margin:34px 0 8px;font-weight:700}
+.ch p{margin:0 0 16px;max-width:40em}
+.kicker{font-size:19px;color:var(--ink-2);max-width:36em}
+
+/* 비유 카드 */
+.analogy{display:grid;grid-template-columns:92px 1fr;gap:18px;align-items:center;margin:26px 0;padding:18px 22px;border-radius:6px;background:var(--paper-2);border-left:4px solid var(--mustard);max-width:44em}
+.analogy .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#9A6C14;display:block;margin-bottom:2px}
+.analogy p{margin:0;font-size:16px;line-height:1.7}
+.analogy svg{width:92px;height:78px}
+
+/* 그림 */
+figure.fig{margin:28px 0 30px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 16px 12px}
+figure.fig svg.map{display:block;width:100%;height:auto}
+figure.fig figcaption{font-size:13.5px;color:var(--ink-3);margin-top:8px;line-height:1.6}
+figure.fig figcaption b{color:var(--ink-2)}
+.figlabel{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.08em;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink-2);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.legend i.ln{height:4px;width:20px;border-radius:2px}
+.legend i.dash{height:0;width:20px;border-top:2px dashed #B9B2A3;border-radius:0}
+
+/* 버튼·컨트롤 */
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 4px}
+.btn{font:inherit;font-size:14px;font-weight:600;padding:7px 14px;border-radius:5px;border:1px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+.btn:hover{background:var(--ink);color:#fff}
+.btn.pri{background:var(--ink);color:#fff}
+.btn.pri:hover{background:var(--navy)}
+.btn:disabled{opacity:.45;cursor:default;background:var(--card);color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden;font-size:13px}
+.seg button{font:inherit;border:0;background:transparent;padding:6px 11px;cursor:pointer;color:var(--ink-2)}
+.seg button.on{background:var(--ink);color:#fff}
+.stat{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-left:auto}
+.stat b{font-family:var(--mono);color:var(--ink)}
+
+/* 세 장의 필름 */
+.layers{position:relative;height:500px;perspective:1400px;margin:10px 0 0}
+.layer{position:absolute;left:38%;top:50%;width:min(400px,72%);transform-style:preserve-3d;transition:transform .9s cubic-bezier(.6,.05,.25,1),opacity .6s;border-radius:4px}
+.layer svg{display:block;width:100%;height:auto;border-radius:4px}
+.layer .tag{position:absolute;right:-8px;top:50%;transform:translate(100%,-50%);font-size:13px;font-weight:600;white-space:nowrap;padding-left:14px;transition:opacity .4s}
+.layer .tag:before{content:"";position:absolute;left:0;top:50%;width:10px;border-top:1px solid currentColor}
+.layers.merged .tag{opacity:0}
+@media (max-width:640px){.layers .tag{display:none!important}}
+
+/* 시간 막대 */
+.tbar{display:flex;height:46px;border-radius:5px;overflow:hidden;margin:12px 0 6px;font-size:12.5px;font-weight:600;color:#fff}
+.tbar div{display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25;padding:0 4px;border-right:2px solid var(--card)}
+.tbar div:last-child{border-right:0}
+.tscale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+
+/* 세 가지 질문 카드 */
+.qgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:22px 0}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.qcard .q{font-weight:700;font-size:16.5px;margin-bottom:4px}
+.qcard .a{font-size:15px;color:var(--ink-2);line-height:1.65;margin:0}
+.qcard .term{display:inline-block;margin-top:10px;font-size:12.5px;font-family:var(--mono);color:var(--patrol);background:#E6EDF4;padding:2px 8px;border-radius:3px}
+
+/* 숫자 띠 */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:6px;background:var(--card);margin:24px 0 8px;overflow:hidden}
+.nums>div{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.nums>div:nth-child(3n){border-right:0}
+.nums>div:nth-last-child(-n+3){border-bottom:0}
+.nums .v{font-family:var(--mono);font-size:24px;color:var(--ink);line-height:1.2}
+.nums .l{font-size:13.5px;color:var(--ink-2);margin-top:4px;line-height:1.45}
+.src{font-size:12.5px;color:var(--ink-3);margin:0 0 20px}
+
+/* 계산기 */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:20px 0;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px}
+.calc label{display:block;font-size:14px;font-weight:600;margin:0 0 2px}
+.calc label span{font-weight:400;color:var(--ink-3);font-size:12.5px}
+.calc .row{margin-bottom:14px}
+.calc input[type=range]{width:100%;accent-color:var(--ink)}
+.calc .out{border-left:1px solid var(--line);padding-left:24px}
+.gauge{height:12px;border-radius:6px;background:linear-gradient(90deg,#B2182B,#D6604D,#B07AA1,#7A6FB0,#4393C3,#2166AC);position:relative;margin:8px 0 4px}
+.gauge i{position:absolute;top:-5px;width:4px;height:22px;background:var(--ink);border-radius:2px;transform:translateX(-50%);transition:left .2s}
+.bigv{font-family:var(--mono);font-size:34px;line-height:1.1}
+.calc .say{font-size:14.5px;color:var(--ink-2);margin-top:12px;line-height:1.65}
+
+/* 2×2 */
+.quad{display:grid;grid-template-columns:56px 1fr 1fr;grid-template-rows:auto 1fr 1fr 28px;gap:6px;max-width:560px;margin:18px 0;font-size:14px}
+.quad .cell{border-radius:5px;padding:12px 14px;line-height:1.5;background:var(--card);border:1px solid var(--line);color:var(--ink-2)}
+.quad .cell b{display:block;font-size:14.5px;margin-bottom:2px}
+.quad .hot{background:#FBE9E2;border-color:#E9B7A6}
+.quad .hot b{color:#A8452A}
+.quad .ax{font-size:12px;color:var(--ink-3);display:flex;align-items:center;justify-content:center;text-align:center}
+.quad .ay{writing-mode:vertical-rl;transform:rotate(180deg)}
+
+/* Q&A */
+details.qa{border-top:1px solid var(--line);padding:4px 0}
+details.qa:last-of-type{border-bottom:1px solid var(--line)}
+details.qa summary{cursor:pointer;list-style:none;padding:14px 34px 14px 0;font-weight:600;font-size:17px;position:relative}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary:after{content:"+";position:absolute;right:6px;top:10px;font-size:24px;font-weight:400;color:var(--ink-3)}
+details.qa[open] summary:after{content:"−"}
+details.qa .ans{padding:0 0 16px;color:var(--ink-2);max-width:40em}
+details.qa .ans p{margin:0 0 10px}
+.ans .short{display:inline-block;font-weight:700;color:var(--people);margin-right:6px}
+
+details.more{margin:18px 0;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+details.more summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:15px;color:var(--ink-2)}
+details.more .in{padding:0 18px 16px;font-size:15.5px}
+
+/* 한계·로드맵 */
+.limits{list-style:none;padding:0;margin:18px 0;counter-reset:l}
+.limits li{counter-increment:l;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line);max-width:42em}
+.limits li:before{content:counter(l,decimal-leading-zero);position:absolute;left:0;top:13px;font-family:var(--mono);font-size:13px;color:var(--people)}
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:20px 0;position:relative}
+.road div{padding:0 18px 16px 0;position:relative;font-size:14.5px;color:var(--ink-2);line-height:1.6}
+.road div b{display:block;color:var(--ink);font-size:15.5px;margin:8px 0 2px}
+.road div .st{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.road div:before{content:"";display:block;height:3px;background:var(--line);margin:4px -18px 14px 0}
+.road div:after{content:"";position:absolute;left:0;top:0;width:11px;height:11px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+
+/* 용어 사전 */
+.gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:0 32px;margin:16px 0}
+.gloss div{padding:13px 0;border-bottom:1px solid var(--line)}
+.gloss dt{font-weight:700;font-size:15.5px}
+.gloss dt small{font-family:var(--mono);font-weight:500;color:var(--ink-3);font-size:11.5px;margin-left:6px}
+.gloss dd{margin:3px 0 0;font-size:14.5px;color:var(--ink-2);line-height:1.6}
+.gloss dd em{font-style:normal;color:#9A6C14}
+
+/* 더 읽기 */
+.path{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}
+.path a{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px;transition:border-color .2s,transform .2s}
+.path a:hover{border-color:var(--ink);transform:translateY(-1px)}
+.path a .k{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.06em}
+.path a b{display:block;margin:2px 0 2px;font-size:16px}
+.path a span{font-size:14px;color:var(--ink-2);line-height:1.55;display:block}
+
+footer.note{max-width:1180px;margin:30px auto 0;padding:34px 20px 60px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3);line-height:1.75;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+footer.note h4{margin:0 0 6px;font-size:13.5px;color:var(--ink-2)}
+footer.note ul{margin:0;padding-left:18px}
+
+.mark{background:linear-gradient(transparent 60%,rgba(208,97,63,.22) 60%)}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:10px;vertical-align:2px}
+.pill.ppl{background:#F7E0D7;color:#A8452A}.pill.rd{background:#DDE7F1;color:#24507A}.pill.rs{background:#D9EEE8;color:#1F6658}
+
+@media (max-width:980px){
+  .wrap{grid-template-columns:1fr;gap:0}
+  .toc{display:none}
+  .cover{grid-template-columns:1fr;gap:28px;padding-top:40px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .how{grid-template-columns:1fr;padding:18px}
+  .qgrid,.gloss,.path,.calc{grid-template-columns:1fr}
+  .calc .out{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:16px}
+  .nums{grid-template-columns:repeat(2,1fr)}
+  .nums>div:nth-child(3n){border-right:1px solid var(--line)}
+  .nums>div:nth-child(2n){border-right:0}
+  .nums>div:nth-last-child(-n+3){border-bottom:1px solid var(--line)}
+  .nums>div:nth-last-child(-n+2){border-bottom:0}
+  .nums .v{font-size:20px}
+  .road{grid-template-columns:1fr}
+  .road div{padding:0 0 18px 26px}
+  .road div:before{position:absolute;left:5px;top:12px;bottom:-4px;width:2px;height:auto;margin:0}
+  .road div:after{top:4px}
+  .analogy{grid-template-columns:1fr;gap:6px}
+  .analogy svg{width:72px;height:60px}
+  .layers{height:380px}
+  .layer{left:50%;width:84%}
+  .tbar{font-size:11px;height:54px}
+  .stat{margin-left:0;width:100%}
+  footer.note{grid-template-columns:1fr}
+  .quad{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="in">
+    <a class="brand" href="index.html"><span class="dot">★</span>전국 경찰 순찰 안전지도</a>
+    <nav class="topnav" aria-label="사이트">
+      <a href="index.html">개요</a>
+      <a href="sudogwon/index.html">수도권</a>
+      <a href="gangwon/index.html">강원권</a>
+      <a href="chungcheong/index.html">충청권</a>
+      <a href="honam/index.html">호남권</a>
+      <a href="yeongnam/index.html">영남권</a>
+      <a href="jeju/index.html">제주권</a>
+      <a href="report.html">시설 공백</a>
+      <a href="method.html">방법론</a>
+      <a class="on" href="guide.html">입문 가이드</a>
+    </nav>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<!-- ───────────── 표지 ───────────── -->
+<div class="cover">
+  <div>
+    <div class="eyebrow">Beginner's Guide · 처음 오신 분께</div>
+    <h1>경찰차가 지도 위를 1년 동안 움직이면, <em>무엇이 보일까요?</em></h1>
+    <p class="lead">이 프로젝트는 진짜 도로를 컴퓨터 안에 옮겨 놓고, 그 위에서 가상의 순찰차를 1년 동안 움직여 봤습니다. 그 발자국을 모아 보면 <b>사람은 많은데 순찰과 방범시설이 덜 닿는 길</b>이 드러납니다. 이 가이드는 그 과정을 수식 없이, 그림과 비유로 따라갑니다.</p>
+    <div class="cover-meta">
+      <span><b>읽는 시간</b> 약 10분</span>
+      <span><b>대상</b> 중고등학생 · 비전공자 · 처음 오신 분</span>
+      <span><b>미리 알아야 할 것</b> 없음</span>
+    </div>
+  </div>
+  <figure class="cover-art" aria-label="가상의 동네 지도 위를 순찰차가 지나간 흔적">
+    <svg class="map" id="fig-cover" viewBox="0 0 608 404" role="img" aria-label="가상의 동네와 1년 순찰 흔적"></svg>
+    <figcaption><span>가상의 동네 · 1년 동안 쌓인 순찰 흔적(진할수록 자주 지나감)</span><span>학습용 그림</span></figcaption>
+  </figure>
+</div>
+
+<div class="wrap">
+  <aside class="toc" aria-label="목차">
+    <div class="t">CONTENTS</div>
+    <ol id="toc">
+      <li><a href="#ch1"><span class="n">01</span>무엇이 문제였나</a></li>
+      <li><a href="#ch2"><span class="n">02</span>세 장의 지도</a></li>
+      <li><a href="#ch3"><span class="n">03</span>가상 순찰차의 규칙</a></li>
+      <li><a href="#ch4"><span class="n">04</span>1년을 반복하면</a></li>
+      <li><a href="#ch5"><span class="n">05</span>결과 지도 읽기</a></li>
+      <li><a href="#ch6"><span class="n">06</span>자주 하는 오해</a></li>
+      <li><a href="#ch7"><span class="n">07</span>한계와 다음 단계</a></li>
+      <li><a href="#ch8"><span class="n">08</span>한 줄 용어 사전</a></li>
+      <li><a href="#ch9"><span class="n">09</span>더 깊이 읽기</a></li>
+    </ol>
+  </aside>
+
+<main>
+
+  <div class="how">
+    <h2>이 가이드를 읽기 전에, 세 가지 약속</h2>
+    <div><span class="k">01</span><b class="ht">범죄 예측이 아닙니다</b>어디서 범죄가 날지 맞히는 연구가 아니라, 순찰과 방범시설이 <b>어디까지 닿는지</b>를 재는 연구입니다.</div>
+    <div><span class="k">02</span><b class="ht">실제 순찰 기록이 아닙니다</b>공개 데이터와 정해 둔 규칙으로 만든 <b>시뮬레이션(가상 실험)</b> 결과입니다.</div>
+    <div><span class="k">03</span><b class="ht">그림은 개념도입니다</b>이 페이지의 동네 지도는 이해를 돕기 위해 만든 <b>가상의 동네</b>이며, 실제 지역이나 결과가 아닙니다.</div>
+  </div>
+
+<!-- ───────────── 1장 ───────────── -->
+<section class="ch" id="ch1">
+  <div class="chno">CHAPTER 01</div>
+  <h2>사람이 모이는 곳과 순찰차가 지나가는 곳은 같을까요?</h2>
+  <p class="kicker">당연히 같아야 할 것 같지만, 실제로는 꼭 그렇지 않습니다.</p>
+  <p>밤 11시에 사람이 붐비는 골목이 있는데 순찰차는 잘 들어가지 않을 수 있습니다. 반대로 여러 순찰차가 비슷한 큰길을 반복해서 지나가기도 합니다. 누가 잘못해서가 아니라, <b>경찰관과 순찰차의 수가 한정되어 있고</b> 동네마다 사람이 몰리는 시간과 장소가 다르기 때문입니다.</p>
+  <p>그래서 이 연구가 던진 질문은 하나입니다.</p>
+  <p style="font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.55;margin:22px 0;max-width:30em">“보호가 필요한 곳”과 “보호가 실제로 닿는 곳” 사이의 빈틈은 어디일까?</p>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 1 · 같은 동네, 두 가지 모습</span><span>가상의 동네</span></div>
+    <svg class="map" id="fig1" viewBox="0 0 608 404" role="img" aria-label="사람이 많은 곳과 순찰 경로가 어긋나는 모습"></svg>
+    <div class="legend">
+      <span><i style="background:rgba(208,97,63,.55)"></i>사람이 많이 모이는 곳</span>
+      <span><i class="ln" style="background:var(--patrol)"></i>순찰차가 자주 지나는 길</span>
+      <span><i style="background:transparent;border:1.5px dashed var(--ink)"></i>둘이 어긋나는 곳</span>
+    </div>
+    <figcaption>순찰차는 주로 큰길을 따라 움직입니다. 오른쪽 아래 주택가처럼 <b>사람은 있는데 순찰 흔적이 옅은 곳</b>이 생길 수 있습니다.</figcaption>
+  </figure>
+
+  <div class="analogy">
+    <svg viewBox="0 0 92 78" aria-hidden="true"><rect x="6" y="40" width="80" height="22" rx="5" fill="none" stroke="#1E2738" stroke-width="2"/><circle cx="22" cy="66" r="6" fill="#F5F1E8" stroke="#1E2738" stroke-width="2"/><circle cx="70" cy="66" r="6" fill="#F5F1E8" stroke="#1E2738" stroke-width="2"/><path d="M14 40v-8h46l10 8" fill="none" stroke="#1E2738" stroke-width="2"/><g fill="#D0613F"><circle cx="18" cy="14" r="4"/><circle cx="30" cy="12" r="4"/><circle cx="42" cy="15" r="4"/></g><path d="M58 18h22" stroke="#D99A2B" stroke-width="2" stroke-dasharray="3 3"/></svg>
+    <div><span class="lbl">비유로 보면</span><p>버스 노선과 비슷합니다. 승객이 많은 정류장에 버스가 자주 오지 않으면 불편하죠. 버스 대수는 정해져 있으니, <b>어느 정류장이 손님에 비해 버스가 드문지</b>를 먼저 아는 것이 출발점입니다.</p></div>
+  </div>
+
+  <p>지도 위에서 이 빈틈을 비교할 수 있다면, 순찰 계획을 짜거나 CCTV·비상벨 같은 방범시설을 어디에 보완할지 논의할 때 <b>참고 자료</b>가 됩니다. 경찰에는 이미 범죄 위험도를 분석하는 시스템(GeoPros, PreCAS 등)이 있습니다. 이 연구는 그것을 대체하려는 게 아니라, <b>“자원이 어디까지 닿는가”라는 다른 질문</b>으로 옆에서 보완하려는 시도입니다.</p>
+</section>
+
+<!-- ───────────── 2장 ───────────── -->
+<section class="ch" id="ch2">
+  <div class="chno">CHAPTER 02</div>
+  <h2>세 장의 지도를 겹쳐 봅니다</h2>
+  <p class="kicker">사람만 보면 어디로 가야 할지는 알지만 갈 수 있는 길을 모릅니다. 길만 보면 갈 수는 있지만 어디에 사람이 있는지 모릅니다.</p>
+  <p>그래서 서로 다른 세 종류의 공개 자료를 한 지도 위에 겹쳤습니다. 각 장은 하나의 질문에 답합니다.</p>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 2 · 세 장의 투명 필름</span><span>버튼을 눌러 겹쳐 보세요</span></div>
+    <div class="layers" id="layers">
+      <div class="layer" data-i="0" style="color:var(--people)"><svg viewBox="0 0 608 404" id="L-people"></svg><span class="tag">사람 · 어디에 많이 있나</span></div>
+      <div class="layer" data-i="1" style="color:var(--patrol)"><svg viewBox="0 0 608 404" id="L-roads"></svg><span class="tag">길 · 차가 어디로 갈 수 있나</span></div>
+      <div class="layer" data-i="2" style="color:var(--resource)"><svg viewBox="0 0 608 404" id="L-res"></svg><span class="tag">치안 자원 · 무엇이 지키고 있나</span></div>
+    </div>
+    <div class="ctrl"><button class="btn pri" id="btn-merge">한 장으로 겹치기</button></div>
+    <figcaption>OHP 필름 세 장을 포개듯, 같은 위치끼리 겹쳐야 “사람은 많은데 길이 멀고 시설도 없는 곳” 같은 조합이 보입니다.</figcaption>
+  </figure>
+
+  <div class="qgrid">
+    <div class="qcard"><div class="q"><span class="pill ppl">사람</span> 언제, 어디에 사람이 많을까?</div><p class="a">통계청의 <b>100m×100m 격자 인구</b>와, 자료가 있는 지역은 <b>시간대별 생활·유동인구</b>를 씁니다. 순찰이 얼마나 필요한지, 즉 <b>수요</b>를 가늠합니다.</p></div>
+    <div class="qcard"><div class="q"><span class="pill rd">길</span> 차가 실제로 어디로 갈 수 있을까?</div><p class="a">누구나 고칠 수 있는 공개 지도 <b>OpenStreetMap</b>의 도로망을 씁니다. 큰길과 골목을 구분하고, 순찰차가 못 들어가는 고속도로는 뺍니다.</p></div>
+    <div class="qcard"><div class="q"><span class="pill rs">치안 자원</span> 어디서 출발하고, 무엇이 지킬까?</div><p class="a">전국 지구대·파출소 <b>2,047곳</b>의 위치와 순찰차 현황, 그리고 <b>CCTV·비상벨</b> 위치입니다. 보호의 <b>공급</b> 쪽입니다.</p></div>
+    <div class="qcard" style="background:transparent;border-style:dashed"><div class="q">왜 굳이 겹칠까?</div><p class="a">같은 골목이라도 근처에 파출소가 있는지, 순찰차가 자주 오가는지에 따라 보호가 닿는 정도가 달라집니다. 겹쳐야 그 차이를 <b>도로 한 칸 한 칸 단위로</b> 비교할 수 있습니다.</p></div>
+  </div>
+
+  <details class="more">
+    <summary>궁금한 분만 펼쳐보기 · 사람은 ‘칸’으로, 길은 ‘구슬’로 센다는 게 무슨 뜻인가요?</summary>
+    <div class="in">
+      <svg viewBox="0 0 560 150" style="width:100%;height:auto;display:block;margin:6px 0 10px" aria-label="100m 격자와 10m 도로 조각 비교">
+        <g transform="translate(10,10)">
+          <g stroke="#D9D2C3" fill="none">
+            <rect x="0" y="0" width="200" height="120" fill="#FBF9F4"/>
+            <path d="M40 0v120M80 0v120M120 0v120M160 0v120M0 40h200M0 80h200"/>
+          </g>
+          <rect x="80" y="40" width="40" height="40" fill="rgba(208,97,63,.45)" stroke="#D0613F"/>
+          <rect x="40" y="40" width="40" height="40" fill="rgba(208,97,63,.22)"/><rect x="80" y="0" width="40" height="40" fill="rgba(208,97,63,.18)"/><rect x="120" y="80" width="40" height="40" fill="rgba(208,97,63,.25)"/>
+          <text x="100" y="140" text-anchor="middle" font-size="13" fill="#4A5468" font-family="IBM Plex Sans KR">사람: 100m × 100m 바둑판 칸</text>
+        </g>
+        <g transform="translate(300,10)">
+          <path id="beadpath" d="M0 95 C 70 95, 90 30, 170 30 S 240 60, 250 60" fill="none" stroke="#C9C1B0" stroke-width="14" stroke-linecap="round"/>
+          <g id="beads"></g>
+          <text x="125" y="140" text-anchor="middle" font-size="13" fill="#4A5468" font-family="IBM Plex Sans KR">길: 약 10m 짧은 조각을 구슬처럼 꿴 것</text>
+        </g>
+      </svg>
+      <p>사람 수는 <b>바둑판처럼 나눈 100m 칸</b>마다 셉니다. 길은 순찰차가 몇 번 지나갔는지 기록하려고 <b>약 10m 길이의 짧은 조각</b>으로 잘게 나눕니다. 같은 것을 두 번 세는 게 아니라, <b>사람이 있는 공간</b>과 <b>차가 움직이는 길</b>을 각자에 맞는 방식으로 관찰하는 것입니다.</p>
+      <p style="margin:0">위치 좌표를 미터 단위로 바꾸는 작업, 파출소를 가장 가까운 도로에 붙이는 작업 같은 기술적 처리는 <a href="https://github.com/Gahyoun/korea-police-infrastructure-map/blob/main/README.md">기술 README</a>의 ‘지리정보과학’ 부분에 있습니다.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ───────────── 3장 ───────────── -->
+<section class="ch" id="ch3">
+  <div class="chno">CHAPTER 03</div>
+  <h2>가상의 순찰차는 어떤 규칙으로 움직일까요?</h2>
+  <p class="kicker">무작정 돌아다니는 게 아닙니다. 사람이 짠 순찰 계획처럼, 정해진 시간 안에 파출소에서 나갔다가 다시 돌아오는 규칙을 따릅니다.</p>
+  <p>하루 24시간을 <b>3시간짜리 8개 시간대</b>로 나눕니다. 한 시간대 동안 순찰차 한 대가 움직이는 모습은 대략 이렇습니다(최종 발표 기준 설명).</p>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 3-1 · 순찰 한 번(3시간)의 시간표</span><span>예시</span></div>
+    <div class="tbar" aria-label="3시간 순찰 시간 배분">
+      <div style="flex:105;background:var(--patrol)">주경로 주행<br>(큰길 위주)</div>
+      <div style="flex:15;background:var(--people)">정차<br>15분</div>
+      <div style="flex:15;background:#B9543A">정차<br>15분</div>
+      <div style="flex:15;background:#A04A33">정차<br>15분</div>
+      <div style="flex:30;background:var(--mustard);color:var(--ink)">현장 대응·골목<br>최대 30분</div>
+    </div>
+    <div class="tscale"><span>0분 · 파출소 출발</span><span>약 150분</span><span>180분 · 복귀</span></div>
+    <figcaption>약 2시간 30분은 <b>미리 짠 주경로</b>(사람 많은 지점에 최대 3번, 각 15분 머무름 포함), 나머지 최대 30분은 <b>골목 확인이나 돌발 상황</b>을 위한 여유입니다. 실제 코드의 시간 설정은 조건에 따라 조금씩 다르며, 정확한 값은 기술 README를 따릅니다.</figcaption>
+  </figure>
+
+  <p>이 계획을 짜려면 네 가지 질문에 답해야 합니다. 각 질문에는 이미 잘 알려진 해법이 있고, 오른쪽 아래 작은 이름표가 그 기술 용어입니다. 지금은 이름만 스쳐 봐도 충분합니다.</p>
+
+  <div class="qgrid">
+    <div class="qcard"><div class="q">① 누가 어디를 맡을까?</div><p class="a">동네를 <b>가장 가까운 파출소 기준으로 나눕니다.</b> 학교 배정할 때 집에서 가까운 학교로 가는 것과 비슷합니다. 경계는 칼같이 자르지 않고 약간 여유를 둡니다.</p><span class="term">보로노이 다이어그램</span></div>
+    <div class="qcard"><div class="q">② 어디를 먼저 들를까?</div><p class="a">시간 안에 다 갈 수 없으니 <b>“가는 데 드는 시간에 비해 사람이 많은 곳”</b>을 골라 최대 3곳을 들릅니다. 하루 배송 시간이 정해진 택배 기사가 들를 집을 고르는 문제와 같습니다.</p><span class="term">Team Orienteering Problem</span></div>
+    <div class="qcard"><div class="q">③ 어떤 길로 갈까?</div><p class="a">들를 곳이 정해지면 그 사이를 <b>실제로 연결된 도로를 따라 가장 빨리 가는 길</b>로 잇습니다. 내비게이션이 하는 일과 같습니다.</p><span class="term">Dijkstra 최단경로</span></div>
+    <div class="qcard"><div class="q">④ 골목도 들여다볼까?</div><p class="a">주경로를 달리다 골목 입구를 만나면 <b>100번에 1번꼴(1%)</b>로 들어가 <b>약 10분</b> 둘러보고 돌아옵니다. 그래서 같은 계획이라도 매번 발자국이 조금씩 달라집니다.</p><span class="term">ABM · 행위자 기반 모형</span></div>
+  </div>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 3-2 · 순찰차 한 대의 하루 한 시간대</span><span>가상의 동네 · 클릭하면 다시 달립니다</span></div>
+    <svg class="map" id="fig3" viewBox="0 0 608 404" role="img" aria-label="파출소에서 출발해 세 지점을 들르고 돌아오는 경로"></svg>
+    <div class="ctrl"><button class="btn pri" id="btn-drive">순찰 다시 보기</button><span class="stat" id="drive-stat">경과 <b>0</b>분</span></div>
+    <div class="legend">
+      <span><i class="ln" style="background:var(--patrol)"></i>미리 짠 주경로(닫힌 고리)</span>
+      <span><i style="background:var(--people);border-radius:50%;width:10px"></i>정차 지점(15분)</span>
+      <span><i class="ln" style="background:var(--mustard)"></i>골목 확인(1% 확률)</span>
+    </div>
+    <figcaption>파출소에서 나와 사람이 많은 지점을 들르고 다시 파출소로 돌아오는 <b>닫힌 고리</b>입니다. 여러 대가 함께 나갈 때는 다른 차가 이미 지나간 길을 피하도록 해서 같은 길만 겹쳐 돌지 않게 합니다.</figcaption>
+  </figure>
+
+  <div class="analogy">
+    <svg viewBox="0 0 92 78" aria-hidden="true"><circle cx="46" cy="40" r="26" fill="none" stroke="#1E2738" stroke-width="2" stroke-dasharray="4 4"/><rect x="38" y="32" width="16" height="16" fill="#1E2738"/><circle cx="46" cy="14" r="5" fill="#D0613F"/><circle cx="70" cy="48" r="5" fill="#D0613F"/><circle cx="24" cy="56" r="5" fill="#D0613F"/></svg>
+    <div><span class="lbl">비유로 보면</span><p>보드게임의 말을 떠올려 보세요. 말 하나하나는 <b>“주경로를 따라가라, 골목을 만나면 가끔 들어가라”</b> 같은 간단한 규칙만 압니다. 그런데 이런 말 수천 개를 한꺼번에 움직이면, 규칙에는 없던 <b>도시 전체의 순찰 분포</b>가 저절로 생겨납니다. 이것이 행위자 기반 모형(ABM)의 핵심 아이디어입니다.</p></div>
+  </div>
+
+  <p><b>“인공지능”이라는 말에 대해 한 가지.</b> 여기서 순찰차는 데이터를 학습해 스스로 판단을 바꾸는 AI가 아닙니다. 사람이 정한 규칙과 약간의 확률에 따라 움직이는 <b>규칙 기반 가상 행위자</b>입니다. 그래서 결과가 어디서 나왔는지 하나하나 따라가 설명할 수 있다는 장점이 있습니다.</p>
+</section>
+
+<!-- ───────────── 4장 ───────────── -->
+<section class="ch" id="ch4">
+  <div class="chno">CHAPTER 04</div>
+  <h2>왜 하필 ‘1년’을 반복할까요?</h2>
+  <p class="kicker">순찰차가 오늘 한 번 골목에 들어갔다고 그 골목이 늘 지켜진다고 할 수는 없습니다. 오늘 안 들어갔다고 늘 비어 있다고 할 수도 없죠.</p>
+  <p>한 번의 순찰은 우연에 크게 흔들립니다. 그래서 <b>365일 × 하루 8개 시간대 = 2,920번</b>의 순찰을 가상으로 반복하고, 도로 조각마다 “1년 동안 몇 번 지나갔나”를 셉니다. 아래에서 직접 돌려 보세요.</p>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 4 · 직접 돌려보는 1년 (장난감 모형)</span><span id="sim-note">순찰차 2대 · 하루 8번 출동</span></div>
+    <svg class="map" id="fig4" viewBox="0 0 608 404" role="img" aria-label="순찰 흔적이 하루, 한 달, 1년에 걸쳐 쌓이는 시뮬레이션"></svg>
+    <div class="ctrl">
+      <button class="btn" id="sim-day">하루 돌리기</button>
+      <button class="btn" id="sim-month">한 달</button>
+      <button class="btn pri" id="sim-year">1년 끝까지</button>
+      <button class="btn" id="sim-reset">처음부터</button>
+      <span class="seg" id="sim-p" role="group" aria-label="골목 진입 확률">
+        <button data-p="0">골목 0%</button><button data-p="0.01" class="on">1%</button><button data-p="0.05">5%</button>
+      </span>
+      <span class="stat"><b id="sim-days">0</b>일 · 순찰 <b id="sim-trips">0</b>회</span>
+    </div>
+    <div class="legend">
+      <span><i class="ln" style="background:#C8D6E5"></i>가끔</span>
+      <span><i class="ln" style="background:#6E95BE"></i>자주</span>
+      <span><i class="ln" style="background:#1D3557"></i>매우 자주</span>
+      <span><i class="dash"></i>1년 내내 한 번도 안 지나감</span>
+    </div>
+    <figcaption>주경로는 매일 같으니 금방 진해지고, 골목은 1% 확률로만 들어가니 <b>날이 쌓여야 비로소 흔적이 드러납니다.</b> 골목 확률을 0%로 바꾸면 골목이 통째로 비고, 5%로 올리면 동네 전체로 번집니다. 이 그림의 동네와 숫자는 설명을 위해 단순화한 것입니다.</figcaption>
+  </figure>
+
+  <div class="analogy">
+    <svg viewBox="0 0 92 78" aria-hidden="true"><rect x="4" y="8" width="84" height="62" rx="4" fill="#DCE7D3"/><path d="M8 62 C 30 50, 40 40, 52 30 S 78 16, 86 12" fill="none" stroke="#B9A98A" stroke-width="7" stroke-linecap="round"/><g fill="#1E2738" opacity=".6"><circle cx="20" cy="56" r="1.6"/><circle cx="34" cy="46" r="1.6"/><circle cx="48" cy="34" r="1.6"/><circle cx="62" cy="25" r="1.6"/><circle cx="76" cy="17" r="1.6"/></g></svg>
+    <div><span class="lbl">비유로 보면</span><p>잔디밭에 난 오솔길과 같습니다. 한 사람이 한 번 지나간 자국은 금방 사라지지만, 1년 동안 많은 사람이 지나가면 <b>어디로 자주 다니는지</b>가 길로 남습니다. 이 연구가 보는 것은 하루의 발자국이 아니라 <b>1년 동안 남은 오솔길</b>입니다.</p></div>
+  </div>
+
+  <h3>그런데 왜 100번이나 다시 돌릴까요?</h3>
+  <p>골목에 들어갈지 말지는 주사위처럼 확률로 정해지기 때문에, 1년을 한 번만 돌리면 “하필 그해 운이 그랬던” 결과가 나올 수 있습니다. 그래서 주사위를 바꿔 가며 1년을 <b>100번</b> 돌려 평균을 냅니다. 이렇게 같은 실험을 여러 번 반복해 평균과 흔들림을 보는 방법을 <b>몬테카를로(Monte Carlo) 시뮬레이션</b>, 반복한 결과 묶음을 <b>앙상블</b>이라고 부릅니다.</p>
+  <p>참고로 매일 똑같은 주경로는 한 번 계산해서 365를 곱하고, 매번 달라지는 골목 탐색만 반복해서 표본을 뽑는 식으로 계산량을 줄였습니다.</p>
+
+  <p style="padding:14px 18px;border:1px solid var(--line);border-radius:6px;background:var(--card);max-width:42em"><b>꼭 기억할 점.</b> 이렇게 쌓인 숫자는 실제 경찰차의 GPS 기록을 1년간 모은 것이 <b>아닙니다.</b> “이런 규칙으로 순찰한다면 1년 동안 이렇게 지나갈 것으로 예상된다”는 <b>예상 방문 패턴</b>입니다.</p>
+</section>
+
+<!-- ───────────── 5장 ───────────── -->
+<section class="ch" id="ch5">
+  <div class="chno">CHAPTER 05</div>
+  <h2>결과 지도는 어떻게 읽어야 할까요?</h2>
+  <p class="kicker">마지막 단계에서는 도로 조각마다 “순찰과 방범자원이 얼마나 잘 닿는가”를 0~100점으로 매기고, 사람 수요와 나란히 놓습니다.</p>
+
+  <h3>접근성 점수는 세 가지를 섞어 만듭니다</h3>
+  <p>공개 사이트에는 <b>‘안전지수’</b>라는 이름으로 표시되어 있습니다. 하지만 이 점수는 실제로 안전한 정도를 잰 것이 아니라 <b>순찰·방범자원이 얼마나 잘 닿는지</b>를 보여 줍니다. 심사 과정에서도 같은 지적이 있었고, 최종 발표에서는 <b>순찰·방범자원 접근성 지수</b>로 고쳐 불렀습니다. 이 가이드도 그 이름을 따릅니다.</p>
+
+  <div class="calc" id="calc">
+    <div>
+      <div class="row"><label>순찰 방문빈도 <span>· 1년 동안 얼마나 자주 지나갔나 (비중 50%)</span></label><input type="range" min="0" max="100" value="30" id="c-p"></div>
+      <div class="row"><label>응답 접근성 <span>· 파출소에서 얼마나 빨리 닿나 (비중 30%)</span></label><input type="range" min="0" max="100" value="40" id="c-a"></div>
+      <div class="row"><label>시설 커버리지 <span>· 주변에 CCTV·비상벨이 얼마나 있나 (비중 20%)</span></label><input type="range" min="0" max="100" value="10" id="c-f"></div>
+      <div class="row" style="margin:0;padding-top:12px;border-top:1px dashed var(--line)"><label>사람 수요 <span>· 이 구간 주변에 사람이 얼마나 많나</span></label><input type="range" min="0" max="100" value="85" id="c-d"></div>
+    </div>
+    <div class="out">
+      <div style="font-size:13.5px;color:var(--ink-3)">접근성 지수 (0~100)</div>
+      <div class="bigv" id="c-idx">—</div>
+      <div class="gauge"><i id="c-g"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-3)"><span>잘 안 닿음</span><span>잘 닿음</span></div>
+      <div style="font-size:13.5px;color:var(--ink-3);margin-top:16px">우선 검토 정도</div>
+      <div class="bigv" id="c-pri" style="font-size:26px">—</div>
+      <div class="say" id="c-say"></div>
+    </div>
+  </div>
+  <p style="font-size:14px;color:var(--ink-3);max-width:44em">계산 방법: 접근성 지수 = 0.5 × 방문빈도 + 0.3 × 응답접근성 + 0.2 × 시설커버리지 (각 0~100으로 맞춘 값). 우선 검토 정도 = 사람 수요 × (100 − 접근성 지수) ÷ 100. 각 항목을 0~100으로 맞추는 세부 방식은 기술 README를 따릅니다.</p>
+
+  <div class="analogy">
+    <svg viewBox="0 0 92 78" aria-hidden="true"><g fill="#1E2738"><rect x="14" y="52" width="10" height="12" rx="1"/><rect x="30" y="42" width="10" height="22" rx="1"/><rect x="46" y="30" width="10" height="34" rx="1" opacity=".22"/><rect x="62" y="18" width="10" height="46" rx="1" opacity=".22"/></g><circle cx="74" cy="16" r="9" fill="#D0613F"/><text x="74" y="20" font-size="11" fill="#fff" text-anchor="middle" font-family="IBM Plex Mono">!</text></svg>
+    <div><span class="lbl">비유로 보면</span><p>휴대폰 와이파이 신호 막대를 떠올려 보세요. 막대가 적다고 그 자리가 위험한 건 아니지만, <b>사람이 많이 모이는 카페인데 신호가 약하다면</b> 공유기를 하나 더 달 곳으로 먼저 검토하겠죠. 접근성 지수는 신호 막대, 사람 수요는 카페 손님 수입니다.</p></div>
+  </div>
+
+  <h3>그래서 무엇을 먼저 볼까요?</h3>
+  <div class="quad" aria-label="수요와 접근성으로 나눈 네 칸">
+    <div class="ax" style="font-weight:600;color:var(--ink-2)">사람 수요</div><div></div><div></div>
+    <div class="ax">많음 ↑</div>
+    <div class="cell hot"><b>우선 검토 후보</b>사람은 많은데 순찰·시설이 덜 닿는 곳</div>
+    <div class="cell"><b>잘 맞춰진 곳</b>사람도 많고 자원도 잘 닿는 곳</div>
+    <div class="ax">적음 ↓</div>
+    <div class="cell"><b>지켜보기</b>사람도 적고 자원도 적은 곳</div>
+    <div class="cell"><b>여유 있는 곳</b>사람은 적은데 자원은 잘 닿는 곳</div>
+    <div></div>
+    <div class="ax">← 접근성 낮음</div>
+    <div class="ax">접근성 높음 →</div>
+  </div>
+
+  <figure class="fig">
+    <div class="figlabel"><span>그림 5 · 가상의 동네에 접근성 지수를 칠하면</span><span>가상의 동네 · 4장의 1년 결과로 계산</span></div>
+    <svg class="map" id="fig5" viewBox="0 0 608 404" role="img" aria-label="도로를 접근성 지수로 색칠하고 우선 검토 후보를 표시한 지도"></svg>
+    <div class="legend" id="leg5"></div>
+    <figcaption>실제 공개 지도와 같은 방식으로 <b>빨강(잘 안 닿음) → 파랑(잘 닿음)</b>으로 칠했습니다. 삼각형 표시는 사람 수요에 비해 접근성이 낮아 <b>먼저 검토해 볼 만한 구간</b>입니다. 이 그림은 4장의 장난감 모형으로 계산한 예시입니다.</figcaption>
+  </figure>
+
+  <p>이 결과는 순찰 배치를 조정하거나 CCTV·비상벨을 어디에 보완할지 <b>논의할 때 참고하는 자료</b>입니다. 접근성이 낮다는 사실이 <span class="mark">곧바로 “범죄가 많이 일어날 곳”이라는 증거는 아닙니다.</span> 그 관계는 실제 사건 자료와 비교해서 따로 확인해야 합니다.</p>
+
+  <h3>실제 전국 규모로는</h3>
+  <p>장난감 동네가 아니라 실제 전국 도로망에서 같은 과정을 거친 결과는 이 정도 규모입니다.</p>
+  <div class="nums">
+    <div><div class="v">16,827,281</div><div class="l">계산한 전국 도로 조각 수</div></div>
+    <div><div class="v">2,047</div><div class="l">출발점이 된 지구대·파출소</div></div>
+    <div><div class="v">374,079</div><div class="l">반영한 CCTV 위치</div></div>
+    <div><div class="v">88,134</div><div class="l">반영한 비상벨 위치</div></div>
+    <div><div class="v">1,226</div><div class="l">우선 검토 후보(사각지대 후보) 구간</div></div>
+    <div><div class="v">598</div><div class="l">그중 반경 안에 CCTV·비상벨이 하나도 없는 지점</div></div>
+  </div>
+  <p class="src">출처: 공개 사이트 <a href="index.html">개요</a>·<a href="report.html">시설 공백</a> 페이지 및 최종 발표 자료 기준. 프로젝트 초기 메모의 숫자(후보 노드 수 등)와는 세는 단위가 달라 함께 비교하지 않습니다.</p>
+</section>
+
+<!-- ───────────── 6장 ───────────── -->
+<section class="ch" id="ch6">
+  <div class="chno">CHAPTER 06</div>
+  <h2>자주 하는 오해, 짧게 정리하기</h2>
+  <p class="kicker">처음 보는 분들이 가장 많이 묻는 질문들입니다.</p>
+
+  <details class="qa" open><summary>AI가 범죄가 일어날 장소를 예측하는 건가요?</summary><div class="ans"><p><span class="short">아니요.</span>범죄가 일어날 확률을 맞히는 연구가 아닙니다. 순찰과 방범자원이 도로망 위에서 <b>얼마나 닿는지</b>를 가상으로 계산합니다. 범죄 위험도 분석은 경찰의 기존 시스템이 하는 일이고, 이 연구는 다른 질문으로 옆에서 보완합니다.</p></div></details>
+  <details class="qa"><summary>순찰차가 1년 동안 실제로 움직인 기록인가요?</summary><div class="ans"><p><span class="short">아니요.</span>공개 데이터와 정해 둔 이동 규칙으로 만든 <b>시뮬레이션 결과</b>입니다. 실제 순찰 경로는 공개 자료로 얻을 수 없어서, 관할을 넓게 커버하도록 짠 <b>임시 경로</b>를 썼습니다. 나중에 실제 순찰 경로를 받으면 이 부분만 갈아 끼울 수 있게 설계했습니다.</p></div></details>
+  <details class="qa"><summary>“인공지능 순찰”이라고 하던데, 학습한 AI인가요?</summary><div class="ans"><p><span class="short">아니요.</span>데이터로 학습한 모델(예: 강화학습)이 아니라, <b>정해진 규칙과 확률로 움직이는 가상 행위자</b>입니다. 경로를 고르는 부분도 학습이 아니라 잘 알려진 최적화 방법을 조합해 빠르게 푸는 방식입니다.</p></div></details>
+  <details class="qa"><summary>지도에서 빨갛게 나오면 위험한 동네인가요?</summary><div class="ans"><p><span class="short">그렇게 단정할 수 없습니다.</span>빨강은 “순찰·방범자원이 상대적으로 덜 닿는다”는 뜻입니다. 사람 수요까지 높다면 <b>먼저 검토해 볼 후보</b>라는 의미이고, 실제 범죄 위험과의 관계는 따로 검증해야 합니다.</p></div></details>
+  <details class="qa"><summary>모든 골목을 빠짐없이 순찰하게 만드는 건가요?</summary><div class="ans"><p><span class="short">아니요.</span>시간과 차량이 정해져 있어 모든 길을 다 돌 수는 없습니다. 사람이 많은 지점을 우선하면서도, 여러 차가 같은 길만 돌지 않게 나눠 <b>한쪽으로 쏠리지 않도록</b> 하는 것이 목표입니다.</p></div></details>
+  <details class="qa"><summary>골목에 1%로 들어간다는 건, 모든 골목을 1%씩 순찰한다는 뜻인가요?</summary><div class="ans"><p><span class="short">조금 다릅니다.</span>주경로를 달리다 <b>골목 입구를 만날 때마다</b> 100번에 1번꼴로 들어가 본다는 뜻입니다. 주경로에서 멀리 떨어진 골목은 입구를 만날 기회 자체가 적어 1년이 지나도 흔적이 거의 없을 수 있습니다. 1%와 10분은 모형의 설정값이며, 실제 경찰 순찰을 측정한 값은 아닙니다.</p></div></details>
+  <details class="qa"><summary>기술적인 내용은 어디서 더 볼 수 있나요?</summary><div class="ans"><p>아래 <a href="#ch9">‘더 깊이 읽기’</a>에 읽는 순서를 정리해 두었습니다. 이 가이드는 전체 흐름을 잡기 위한 <b>입구</b>이고, 정확한 수식과 설정값은 기술 README가 기준입니다.</p></div></details>
+</section>
+
+<!-- ───────────── 7장 ───────────── -->
+<section class="ch" id="ch7">
+  <div class="chno">CHAPTER 07</div>
+  <h2>아직 풀지 못한 것, 그리고 다음 단계</h2>
+  <p class="kicker">좋은 연구는 할 수 있는 것만큼 <b>아직 모르는 것</b>도 분명히 적습니다.</p>
+  <ol class="limits">
+    <li><b>실제와 맞춰 보는 검증이 남아 있습니다.</b> 이 점수가 실제 112 신고나 사건 분포와 얼마나 관련 있는지는 아직 확인 전입니다.</li>
+    <li><b>이동 시간은 근사치입니다.</b> 도로 길이와 일정한 속도로 계산해서, 신호·정체·일방통행 같은 실제 주행 조건이 다 반영되지는 않았습니다.</li>
+    <li><b>시간대별 유동인구 자료가 지역마다 고르지 않습니다.</b> 자료가 있는 지역과 없는 지역의 정밀도가 다를 수 있습니다.</li>
+    <li><b>경로는 실제 순찰 경로가 아니라 임시 경로입니다.</b> 빠르게 좋은 답을 찾는 방법(휴리스틱)으로 짠 것이라 “가장 좋은 경로”가 보장되지는 않습니다.</li>
+    <li><b>세 항목의 비중(50·30·20%)과 1%·10분 같은 설정값</b>은 연구진이 정한 값입니다. 값을 바꿔도 결과가 크게 흔들리지 않는지 보는 민감도 분석이 함께 필요합니다.</li>
+    <li><b>공정성도 고민해야 합니다.</b> 사람 많은 곳만 우선하면 인구가 적은 농촌 지역이 계속 뒤로 밀릴 수 있습니다.</li>
+  </ol>
+
+  <h3>현장에 적용한다면, 이런 순서로</h3>
+  <div class="road">
+    <div><span class="st">STEP 1</span><b>관서 1곳 · 4주</b>진단 결과가 실제 사건 현황과 어느 정도 관련 있는지 확인합니다.</div>
+    <div><span class="st">STEP 2</span><b>경찰서 권역 · 3개월</b>실제 순찰 궤적과 나란히 비교하고, 임시 경로를 실제 경로로 바꿉니다.</div>
+    <div><span class="st">STEP 3</span><b>권역 확대</b>지표 개선이 확인되고 현장 검토를 통과한 경우에만 넓혀 갑니다.</div>
+  </div>
+  <p style="font-size:14.5px;color:var(--ink-2)">최종 발표에서 제시한 적용 로드맵이며, 아직 실행된 단계가 아니라 <b>계획</b>입니다.</p>
+</section>
+
+<!-- ───────────── 8장 ───────────── -->
+<section class="ch" id="ch8">
+  <div class="chno">CHAPTER 08</div>
+  <h2>한 줄 용어 사전</h2>
+  <p class="kicker">README를 읽다가 막히면 여기로 돌아오세요. <em style="font-style:normal;color:#9A6C14">노란 글씨</em>는 비유입니다.</p>
+  <dl class="gloss">
+    <div><dt>GIS<small>Geographic Information System</small></dt><dd>위치가 붙은 데이터를 지도 위에서 다루는 기술. <em>지도 위에 엑셀을 펼친 것.</em></dd></div>
+    <div><dt>OpenStreetMap<small>OSM</small></dt><dd>전 세계 사람들이 함께 만드는 공개 지도. <em>지도판 위키백과.</em></dd></div>
+    <div><dt>그래프 · 노드 · 엣지</dt><dd>점(노드)과 점을 잇는 선(엣지)으로 연결 관계를 표현한 것. 도로망에서는 교차점이 노드, 도로 조각이 엣지. <em>지하철 노선도.</em></dd></div>
+    <div><dt>좌표계 변환<small>EPSG:4326 → 5179</small></dt><dd>각도(위도·경도)로 적힌 위치를 미터 단위 평면 좌표로 바꾸는 일. 그래야 “반경 250m” 같은 거리 계산이 정확해집니다.</dd></div>
+    <div><dt>보로노이 다이어그램</dt><dd>각 지점에서 가장 가까운 영역끼리 공간을 나누는 방법. <em>가장 가까운 학교로 배정하기.</em></dd></div>
+    <div><dt>Team Orienteering Problem</dt><dd>여러 대가 정해진 시간 안에 점수가 높은 지점을 골라 도는 최적화 문제. <em>택배 기사 여러 명의 배송 동선 짜기.</em></dd></div>
+    <div><dt>Dijkstra 알고리즘</dt><dd>두 지점 사이에서 비용(거리·시간)이 가장 적은 길을 찾는 방법. <em>내비게이션의 ‘최단 경로’.</em></dd></div>
+    <div><dt>휴리스틱</dt><dd>완벽한 답 대신 충분히 좋은 답을 빠르게 찾는 요령. <em>모든 경우를 다 따지지 않는 경험칙.</em></dd></div>
+    <div><dt>ABM<small>Agent-Based Model</small></dt><dd>간단한 규칙을 가진 개체를 많이 움직여 전체 현상을 관찰하는 모형. <em>보드게임 말 수천 개.</em></dd></div>
+    <div><dt>몬테카를로 · 앙상블</dt><dd>확률이 섞인 실험을 여러 번 반복해 평균과 흔들림을 보는 방법과, 그 반복 결과 묶음. <em>주사위 100번 던져 평균 내기.</em></dd></div>
+    <div><dt>핫스팟 · Koper 15분</dt><dd>범죄나 신고가 몰리는 작은 지점. 경찰이 한 지점에 약 15분 머물 때 억제 효과가 오래간다는 연구(Koper, 1995)를 정차 규칙에 반영했습니다.</dd></div>
+    <div><dt>KDTree</dt><dd>“이 지점 주변 250m 안에 CCTV가 몇 개?” 같은 질문을 빠르게 답하도록 점들을 정리해 두는 자료구조. <em>책장을 구역별로 정리해 두기.</em></dd></div>
+    <div><dt>접근성 지수<small>공식 자료의 ‘안전지수’</small></dt><dd>방문빈도·응답접근성·시설커버리지를 50:30:20으로 섞은 0~100점. 안전 그 자체가 아니라 자원이 닿는 정도.</dd></div>
+    <div><dt>민감도 분석</dt><dd>설정값을 조금씩 바꿔도 결론이 유지되는지 확인하는 검사. <em>저울 눈금을 살짝 바꿔도 순위가 같은지 보기.</em></dd></div>
+  </dl>
+</section>
+
+<!-- ───────────── 9장 ───────────── -->
+<section class="ch" id="ch9">
+  <div class="chno">CHAPTER 09</div>
+  <h2>더 깊이 읽기</h2>
+  <p class="kicker">흐름을 잡았다면 이제 원본으로 넘어갈 차례입니다. 아래 순서를 추천합니다.</p>
+  <div class="path">
+    <a href="index.html"><span class="k">STEP 1 · 직접 보기</span><b>실제 공개 지도</b><span>권역을 고르고 확대해 보세요. 빨강→파랑 색과 삼각형 표시가 이 가이드 5장의 그림과 같은 방식입니다.</span></a>
+    <a href="report.html"><span class="k">STEP 2 · 결과 보기</span><b>시설 공백 보고서</b><span>CCTV·비상벨이 전혀 없는 우선 검토 지점 598곳을 관서별로 정리했습니다.</span></a>
+    <a href="method.html"><span class="k">STEP 3 · 방법 보기</span><b>방법론 페이지</b><span>데이터 처리부터 지수 계산까지의 과정을 단계별로 설명합니다.</span></a>
+    <a href="https://github.com/Gahyoun/korea-police-infrastructure-map/blob/main/README.md"><span class="k">STEP 4 · 기술 문서</span><b>기술 README</b><span>추천 순서: 지리정보과학 → 경로 최적화 → ABM → 안전지수 → 한계. 수식·설정값·참고문헌의 기준 문서입니다.</span></a>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="note">
+  <div>
+    <h4>이 가이드에 대하여</h4>
+    <ul>
+      <li><b>목적:</b> 기술 README를 대체하지 않고, 처음 오신 분이 <b>왜 이 연구를 했고 데이터가 어떻게 결과로 이어지는지</b> 빠르게 이해하도록 돕는 입문 자료입니다.</li>
+      <li><b>설명 방식:</b> 큰 흐름을 위해 일부 세부사항을 생략하거나 비유로 표현했습니다. 정확한 파라미터와 계산 조건은 원본 문서를 우선합니다.</li>
+      <li><b>그림:</b> 모든 동네 그림과 인터랙티브 모형은 학습용 개념도이며 실제 관할구역·실측 지도·실험 결과가 아닙니다.</li>
+      <li><b>범위:</b> 원본 연구 데이터와 알고리즘은 바꾸지 않았고, 공개 자료를 바탕으로 입문용 설명과 시각자료만 새로 구성했습니다.</li>
+    </ul>
+  </div>
+  <div>
+    <h4>연구 정보</h4>
+    <ul>
+      <li>「지도 위에 그리는 인공지능 경찰 순찰 1년 시뮬레이션 결과」</li>
+      <li>경상국립대학교 물리학과 네트워크과학연구실 · 김가현, 김다온, 장지현, 최승호 (지도교수 이상훈)</li>
+      <li>제12회 과학치안 아이디어 공모전 우수상(KIST 원장상)</li>
+      <li>참고: Weisburd(2015), Braga et al.(2019), Koper(1995), Boeing(2017), Bonabeau(2002) — 전체 목록은 기술 README</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);if(attrs)for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ───────── 1. 가상의 동네 만들기 (모든 그림이 같은 동네를 공유) ───────── */
+var COLS=12,ROWS=8,W=608,H=404;
+var R=rng(20261101);
+var MAIN_ROWS=[2,5],MAIN_COLS=[3,8];
+var nodes=[];
+for(var j=0;j<ROWS;j++)for(var i=0;i<COLS;i++){
+  var onMain=MAIN_ROWS.indexOf(j)>=0||MAIN_COLS.indexOf(i)>=0;
+  var jit=onMain?4:9;
+  nodes.push({id:j*COLS+i,i:i,j:j,x:34+i*49+(R()-.5)*2*jit,y:32+j*48.5+(R()-.5)*2*jit});
+}
+function N(i,j){return j*COLS+i;}
+var edges=[],adj=nodes.map(function(){return[];});
+function addEdge(a,b,main){var A=nodes[a],B=nodes[b];var e={id:edges.length,a:a,b:b,main:main,len:Math.hypot(A.x-B.x,A.y-B.y),mx:(A.x+B.x)/2,my:(A.y+B.y)/2};edges.push(e);adj[a].push({to:b,e:e.id});adj[b].push({to:a,e:e.id});return e;}
+var candidates=[];
+for(j=0;j<ROWS;j++)for(i=0;i<COLS;i++){
+  if(i<COLS-1)candidates.push([N(i,j),N(i+1,j),MAIN_ROWS.indexOf(j)>=0]);
+  if(j<ROWS-1)candidates.push([N(i,j),N(i,j+1),MAIN_COLS.indexOf(i)>=0]);
+}
+var removed=[];
+candidates.forEach(function(c){
+  if(!c[2]&&R()<.27){removed.push(c);return;}
+  addEdge(c[0],c[1],c[2]);
+});
+// 연결성 보장: 떨어진 노드가 생기면 지운 골목을 되살린다
+function components(){var comp=new Array(nodes.length).fill(-1),k=0;for(var s=0;s<nodes.length;s++){if(comp[s]>=0)continue;var st=[s];comp[s]=k;while(st.length){var u=st.pop();adj[u].forEach(function(n){if(comp[n.to]<0){comp[n.to]=k;st.push(n.to);}});}k++;}return comp;}
+var comp=components();
+removed.forEach(function(c){if(comp[c[0]]!==comp[c[1]]){addEdge(c[0],c[1],false);comp=components();}});
+
+var STATION=N(5,5);
+var SPOTS=[
+  {n:N(8,2),w:1.0,s:52,label:"역 앞",dx:10,dy:-12},
+  {n:N(3,5),w:.85,s:48,label:"시장",dx:-40,dy:20},
+  {n:N(1,1),w:.7,s:44,label:"대학가",dx:-6,dy:-14},
+  {n:N(10,2),w:.55,s:40,label:"번화가",dx:6,dy:-12},
+  {n:N(10,6),w:.9,s:56,label:"주택가",dx:-8,dy:30}
+];
+function demandAt(x,y){var d=.04;SPOTS.forEach(function(s){var p=nodes[s.n];var dd=(x-p.x)*(x-p.x)+(y-p.y)*(y-p.y);d+=s.w*Math.exp(-dd/(2*s.s*s.s));});return d;}
+var CCTV=[[4,5],[5,4],[6,5],[5,6],[8,2],[7,2],[8,3],[3,5],[3,4],[2,5],[1,1],[2,1],[8,5],[9,2],[6,2],[4,2],[3,2],[1,2],[7,5],[5,3]].map(function(p,k){var n=nodes[N(p[0],p[1])];return{x:n.x+(k%2?9:-9),y:n.y+(k%3?-8:8)};});
+var BELLS=[[3,6],[8,1],[1,2],[6,4],[9,3],[4,4]].map(function(p){var n=nodes[N(p[0],p[1])];return{x:n.x+11,y:n.y+11};});
+
+/* ───────── 2. 길찾기 (Dijkstra) 와 순찰 경로 ───────── */
+function dijkstra(src,wf){
+  var dist=new Array(nodes.length).fill(Infinity),prev=new Array(nodes.length).fill(-1),done=new Array(nodes.length).fill(false);
+  dist[src]=0;
+  for(var it=0;it<nodes.length;it++){
+    var u=-1,best=Infinity;for(var v=0;v<nodes.length;v++)if(!done[v]&&dist[v]<best){best=dist[v];u=v;}
+    if(u<0)break;done[u]=true;
+    adj[u].forEach(function(nb){var nd=dist[u]+wf(edges[nb.e]);if(nd<dist[nb.to]){dist[nb.to]=nd;prev[nb.to]=nb.e;}});
+  }
+  return{dist:dist,prev:prev};
+}
+function pathTo(dj,src,dst){var es=[],ns=[dst],cur=dst;while(cur!==src){var e=edges[dj.prev[cur]];es.unshift(e.id);cur=(e.a===cur)?e.b:e.a;ns.unshift(cur);}return{edges:es,nodes:ns};}
+function buildRoute(stops,avoid){
+  var used=new Set(avoid||[]),seq=[STATION].concat(stops,[STATION]),rn=[STATION],re=[];
+  for(var k=0;k<seq.length-1;k++){
+    var dj=dijkstra(seq[k],function(e){return e.len*(e.main?1:2.2)*(used.has(e.id)?3.2:1);});
+    var p=pathTo(dj,seq[k],seq[k+1]);
+    p.edges.forEach(function(id){used.add(id);re.push(id);});
+    rn=rn.concat(p.nodes.slice(1));
+  }
+  return{nodes:rn,edges:re,stops:stops};
+}
+var routeA=buildRoute([SPOTS[1].n,SPOTS[2].n]);
+var routeB=buildRoute([SPOTS[0].n,SPOTS[3].n],routeA.edges);
+var ROUTES=[routeA,routeB];
+
+/* ───────── 3. 1년 시뮬레이션 (주경로 + 1% 골목 탐색) ───────── */
+function makeSim(p,seed){
+  var rand=rng(seed),visits=new Float64Array(edges.length),days=0,trips=0;
+  var routeSets=ROUTES.map(function(r){return new Set(r.edges);});
+  function trip(r,set){
+    r.edges.forEach(function(id){visits[id]+=1;});
+    if(p<=0)return;
+    for(var k=1;k<r.nodes.length-1;k++){
+      var u=r.nodes[k];
+      adj[u].forEach(function(nb){
+        var e=edges[nb.e];if(e.main||set.has(e.id))return;
+        if(rand()<p){ // 골목 진입: 약 10분(±30%) ≈ 3~5 조각 둘러보고 복귀
+          var steps=Math.max(2,Math.round(4*(0.7+0.6*rand()))),cur=nb.to,last=e.id;visits[e.id]+=1;
+          for(var s=1;s<steps;s++){
+            var opts=adj[cur].filter(function(x){return x.e!==last&&!edges[x.e].main;});
+            if(!opts.length)break;var pick=opts[Math.floor(rand()*opts.length)];
+            visits[pick.e]+=1;last=pick.e;cur=pick.to;
+          }
+        }
+      });
+    }
+  }
+  return{
+    day:function(){for(var slot=0;slot<8;slot++)ROUTES.forEach(function(r,ix){trip(r,routeSets[ix]);trips++;});days++;},
+    visits:visits,get days(){return days;},get trips(){return trips;}
+  };
+}
+
+/* ───────── 4. 그리기 도구 ───────── */
+function base(svg,opt){
+  opt=opt||{};
+  svg.innerHTML="";
+  el("rect",{x:0,y:0,width:W,height:H,fill:opt.bg||"#E6E0D2"},svg);
+  // 건물 질감
+  var r2=rng(99),g=el("g",{fill:opt.bld||"#DCD4C2"},svg);
+  for(var j=0;j<ROWS-1;j++)for(var i=0;i<COLS-1;i++){
+    if(i===5&&j===0)continue;
+    var a=nodes[N(i,j)],c=nodes[N(i+1,j+1)],cx=(a.x+c.x)/2,cy=(a.y+c.y)/2;
+    var n=1+Math.floor(r2()*3);
+    for(var b=0;b<n;b++){var w=8+r2()*12,h=7+r2()*10;el("rect",{x:cx-15+r2()*18,y:cy-12+r2()*14,width:w,height:h,rx:1.5},g);}
+  }
+  // 공원
+  var p=[N(5,0),N(6,0),N(6,1),N(5,1)].map(function(k){return nodes[k];}),pc={x:0,y:0};p.forEach(function(q){pc.x+=q.x/4;pc.y+=q.y/4;});
+  el("polygon",{points:p.map(function(q){return(pc.x+(q.x-pc.x)*.72)+","+(pc.y+(q.y-pc.y)*.66);}).join(" "),fill:opt.park||"#CBD9BC"},svg);
+  if(opt.roads!==false){
+    var gr=el("g",{"stroke-linecap":"round"},svg);
+    edges.forEach(function(e){if(e.main)line(gr,e,opt.casing||"#CDC4B1",10.5);});
+    edges.forEach(function(e){line(gr,e,opt.road||"#FFFFFF",e.main?7.5:3.6);});
+  }
+  return svg;
+}
+function line(g,e,stroke,w,extra){var a=nodes[e.a],b=nodes[e.b];var l=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:stroke,"stroke-width":w},g);if(extra)for(var k in extra)l.setAttribute(k,extra[k]);return l;}
+function label(svg,x,y,text,opt){opt=opt||{};var t=el("text",{x:x,y:y,"font-size":opt.size||12.5,"font-weight":opt.weight||600,fill:opt.fill||"#1E2738","font-family":"IBM Plex Sans KR, sans-serif","text-anchor":opt.anchor||"start",stroke:"#F5F1E8","stroke-width":3.5,"paint-order":"stroke","stroke-linejoin":"round"},svg);t.textContent=text;return t;}
+function station(svg){var s=nodes[STATION],g=el("g",{transform:"translate("+s.x+","+s.y+")"},svg);el("rect",{x:-9,y:-9,width:18,height:18,rx:3,fill:"#1D3557",stroke:"#fff","stroke-width":2},g);el("path",{d:"M0 -4.5 L1.3 -1.3 L4.6 -1.3 L2 .8 L3 4 L0 2 L-3 4 L-2 .8 L-4.6 -1.3 L-1.3 -1.3Z",fill:"#fff"},g);label(svg,s.x+13,s.y+22,"파출소",{size:12});}
+function spotLabels(svg,which){SPOTS.forEach(function(s,k){if(which&&which.indexOf(k)<0)return;var n=nodes[s.n];label(svg,n.x+s.dx,n.y+s.dy,s.label,{size:12,fill:"#4A5468"});});}
+function polyPts(ns){return ns.map(function(k){return nodes[k].x+","+nodes[k].y;}).join(" ");}
+
+var HEAT=[["#DCE5EF",.02],["#A9C0DA",.2],["#6E95BE",2],["#1D3557",Infinity]];
+function heatColor(rate){for(var k=0;k<HEAT.length;k++)if(rate<=HEAT[k][1])return HEAT[k][0];return HEAT[3][0];}
+function drawHeat(g,visits,days,showEmpty){
+  g.innerHTML="";
+  edges.forEach(function(e){
+    var v=visits[e.id];
+    if(v===0){if(showEmpty&&!e.main)line(g,e,"#B9B2A3",1.3,{"stroke-dasharray":"3 3"});return;}
+    line(g,e,heatColor(v/Math.max(days,1)),e.main?5.2:2.9,{"stroke-linecap":"round"});
+  });
+}
+
+/* ───────── 5. 그림별 렌더링 ───────── */
+// 표지
+var yearSim=makeSim(.01,7);for(var d=0;d<365;d++)yearSim.day();
+(function(){var svg=base(document.getElementById("fig-cover"));drawHeat(el("g",{},svg),yearSim.visits,365,true);station(svg);spotLabels(svg);})();
+
+// 그림 1: 사람 vs 순찰
+(function(){
+  var svg=base(document.getElementById("fig1"));
+  var defs=el("defs",{},svg),rg=el("radialGradient",{id:"blob"},defs);
+  el("stop",{offset:"0","stop-color":"#D0613F","stop-opacity":".62"},rg);el("stop",{offset:"1","stop-color":"#D0613F","stop-opacity":"0"},rg);
+  SPOTS.forEach(function(s){var n=nodes[s.n];el("circle",{cx:n.x,cy:n.y,r:s.s*1.45*Math.sqrt(s.w),fill:"url(#blob)"},svg);});
+  var gr=el("g",{"stroke-linecap":"round","stroke-linejoin":"round",fill:"none"},svg);
+  ROUTES.forEach(function(r){el("polyline",{points:polyPts(r.nodes),stroke:"#2C5F8E","stroke-width":4.5,opacity:.9},gr);});
+  // 사람 아이콘
+  var pr=rng(3);SPOTS.forEach(function(s){var n=nodes[s.n];var cnt=Math.round(3+s.w*5);for(var k=0;k<cnt;k++){var a=pr()*6.28,rr=6+pr()*s.s*.45;person(svg,n.x+Math.cos(a)*rr,n.y+Math.sin(a)*rr*.8);}});
+  var h=nodes[SPOTS[4].n];
+  el("ellipse",{cx:h.x-4,cy:h.y+2,rx:62,ry:52,fill:"none",stroke:"#1E2738","stroke-width":1.6,"stroke-dasharray":"5 4"},svg);
+  label(svg,h.x+52,h.y-60,"사람은 있는데 순찰 흔적이 옅은 곳",{size:12,anchor:"end"});
+  station(svg);spotLabels(svg,[0,1,2,3]);
+})();
+function person(svg,x,y){var g=el("g",{transform:"translate("+x+","+y+")",fill:"#B4492C"},svg);el("circle",{cx:0,cy:-4.2,r:2.3},g);el("path",{d:"M-3 3.6 Q-3 -1.6 0 -1.6 Q3 -1.6 3 3.6Z"},g);}
+
+// 그림 2: 세 장의 필름
+(function(){
+  var P=document.getElementById("L-people");P.innerHTML="";
+  el("rect",{x:0,y:0,width:W,height:H,fill:"#FBF9F4",stroke:"#D0613F","stroke-width":2},P);
+  var cell=22,cls=["#F6E3DA","#F0C6B4","#E59C80","#D6714F","#B4492C"];
+  for(var y=0;y<H;y+=cell)for(var x=0;x<W;x+=cell){var v=demandAt(x+cell/2,y+cell/2);var k=v<.12?-1:v<.25?0:v<.4?1:v<.6?2:v<.8?3:4;if(k<0)continue;el("rect",{x:x+1,y:y+1,width:cell-2,height:cell-2,fill:cls[k]},P);}
+  var Rd=document.getElementById("L-roads");Rd.innerHTML="";
+  el("rect",{x:0,y:0,width:W,height:H,fill:"rgba(221,231,241,.35)",stroke:"#2C5F8E","stroke-width":2},Rd);
+  var g=el("g",{"stroke-linecap":"round"},Rd);
+  edges.forEach(function(e){line(g,e,e.main?"#24507A":"#6F93B8",e.main?5:2.2);});
+  var Rs=document.getElementById("L-res");Rs.innerHTML="";
+  el("rect",{x:0,y:0,width:W,height:H,fill:"rgba(217,238,232,.25)",stroke:"#2D8473","stroke-width":2},Rs);
+  CCTV.forEach(function(c){var gg=el("g",{transform:"translate("+c.x+","+c.y+")"},Rs);el("circle",{r:5.5,fill:"#2D8473",stroke:"#fff","stroke-width":1.5},gg);el("circle",{r:1.8,fill:"#fff"},gg);});
+  BELLS.forEach(function(b){el("rect",{x:b.x-5,y:b.y-5,width:10,height:10,rx:2,fill:"#D99A2B",stroke:"#fff","stroke-width":1.5,transform:"rotate(45 "+b.x+" "+b.y+")"},Rs);});
+  station(Rs);
+  var lg=el("g",{"font-family":"IBM Plex Sans KR, sans-serif","font-size":13,fill:"#1E2738"},Rs);
+  el("rect",{x:W-150,y:H-56,width:140,height:46,rx:4,fill:"rgba(251,249,244,.92)",stroke:"#D9D2C3"},lg);
+  el("circle",{cx:W-134,cy:H-40,r:5,fill:"#2D8473"},lg);var t1=el("text",{x:W-122,y:H-36},lg);t1.textContent="CCTV";
+  el("rect",{x:W-139,y:H-27,width:9,height:9,rx:2,fill:"#D99A2B",transform:"rotate(45 "+(W-134.5)+" "+(H-22.5)+")"},lg);var t2=el("text",{x:W-122,y:H-18},lg);t2.textContent="비상벨";
+
+  var box=document.getElementById("layers"),layers=[].slice.call(box.querySelectorAll(".layer")),tags=[];
+  layers.forEach(function(L){var t=L.querySelector(".tag");box.appendChild(t);t.style.color=L.style.color;tags.push(t);});
+  var merged=false,btn=document.getElementById("btn-merge");
+  function place(){
+    var small=box.clientWidth<640,gap=small?84:122;
+    layers.forEach(function(L,k){
+      var off=(1-k)*gap;
+      L.style.transform=merged?"translate(-50%,-50%)":"translate(-50%,-50%) translateY("+off+"px) rotateX(58deg) rotateZ(-32deg)";
+      L.style.zIndex=k+1;
+      var t=tags[k];t.style.position="absolute";t.style.left="calc(38% + "+(small?0:285)+"px)";t.style.top="calc(50% + "+(off-10)+"px)";t.style.transform="none";t.style.right="auto";t.style.opacity=merged?0:1;
+    });
+    box.classList.toggle("merged",merged);
+  }
+  btn.addEventListener("click",function(){merged=!merged;btn.textContent=merged?"다시 세 장으로 펼치기":"한 장으로 겹치기";place();});
+  window.addEventListener("resize",place);place();
+})();
+
+// 100m 칸 vs 10m 구슬
+(function(){var p=document.getElementById("beadpath"),g=document.getElementById("beads");if(!p||!g)return;var L=p.getTotalLength();for(var s=6;s<L-4;s+=13){var q=p.getPointAtLength(s);el("circle",{cx:q.x,cy:q.y,r:4.4,fill:"#fff",stroke:"#2C5F8E","stroke-width":1.6},g);}})();
+
+// 그림 3: 순찰 한 바퀴 애니메이션
+(function(){
+  var svg=base(document.getElementById("fig3"));
+  var gGhost=el("g",{fill:"none","stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  el("polyline",{points:polyPts(routeA.nodes),stroke:"#2C5F8E","stroke-width":4,opacity:.22},gGhost);
+  var trail=el("polyline",{points:"",fill:"none",stroke:"#2C5F8E","stroke-width":4.5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  var detourLine=el("polyline",{points:"",fill:"none",stroke:"#D99A2B","stroke-width":3.4,"stroke-dasharray":"5 4","stroke-linecap":"round"},svg);
+  var stopsG=el("g",{},svg);
+  routeA.stops.forEach(function(sn,k){var n=nodes[sn];var c=el("circle",{cx:n.x,cy:n.y,r:8,fill:"#fff",stroke:"#D0613F","stroke-width":2.5},stopsG);var t=el("text",{x:n.x,y:n.y+4,"text-anchor":"middle","font-size":10,"font-weight":700,fill:"#D0613F","font-family":"IBM Plex Mono, monospace"},stopsG);t.textContent=k+1;});
+  station(svg);spotLabels(svg,[1,2]);
+  var car=el("g",{},svg);el("rect",{x:-8,y:-5,width:16,height:10,rx:3,fill:"#1D3557",stroke:"#fff","stroke-width":1.5},car);el("rect",{x:-2,y:-6.5,width:4,height:2.4,rx:1,fill:"#D0613F"},car);
+  var bubble=el("g",{opacity:0},svg);el("rect",{x:-34,y:-36,width:68,height:22,rx:4,fill:"#1E2738"},bubble);var btxt=el("text",{x:0,y:-21,"text-anchor":"middle","font-size":11.5,fill:"#fff","font-family":"IBM Plex Sans KR, sans-serif","font-weight":600},bubble);
+  // 골목 탐색 지점: 경로 중간의 골목 입구 하나
+  var rset=new Set(routeA.edges),detourAt=-1,detourNodes=null;
+  for(var k=Math.floor(routeA.nodes.length*.55);k<routeA.nodes.length-1&&detourAt<0;k++){var u=routeA.nodes[k];adj[u].some(function(nb){var e=edges[nb.e];if(e.main||rset.has(e.id))return false;var path=[u,nb.to],cur=nb.to,last=e.id;for(var s=0;s<2;s++){var o=adj[cur].filter(function(x){return x.e!==last&&!edges[x.e].main&&!rset.has(x.e);});if(!o.length)break;last=o[0].e;cur=o[0].to;path.push(cur);}if(path.length>=3){detourAt=k;detourNodes=path;return true;}return false;});}
+  // 이동 계획 만들기: [{x,y,dt,kind}]
+  var plan=[],stopIdx=routeA.stops.map(function(sn){return routeA.nodes.indexOf(sn);});
+  var totalLen=0;for(k=1;k<routeA.nodes.length;k++){var a=nodes[routeA.nodes[k-1]],b=nodes[routeA.nodes[k]];totalLen+=Math.hypot(a.x-b.x,a.y-b.y);}
+  var minPerPx=105/totalLen;
+  function anim(){
+    var pts=[],dpts=[],t=0,idx=0,seg=0,phase="drive",wait=0,dpos=0,elapsedMin=0,ret=false;
+    trail.setAttribute("points","");detourLine.setAttribute("points","");
+    var seq=[];for(var k=0;k<routeA.nodes.length;k++){seq.push({n:routeA.nodes[k]});if(stopIdx.indexOf(k)>=0&&k>0)seq.push({stop:true,n:routeA.nodes[k]});if(k===detourAt){detourNodes.slice(1).forEach(function(n){seq.push({n:n,detour:true});});detourNodes.slice(0,-1).reverse().forEach(function(n){seq.push({n:n,detour:true,back:true});});}}
+    var cur={x:nodes[STATION].x,y:nodes[STATION].y},i=1,last=performance.now();
+    pts.push(cur.x+","+cur.y);
+    var stat=document.getElementById("drive-stat");
+    function frame(now){
+      var dt=Math.min(50,now-last);last=now;
+      if(i>=seq.length){bubble.setAttribute("opacity",0);stat.innerHTML="경과 <b>"+Math.round(Math.min(elapsedMin,150))+"</b>분 · 파출소 복귀";return;}
+      var s=seq[i];
+      if(s.stop){wait+=dt;bubble.setAttribute("opacity",1);bubble.setAttribute("transform","translate("+cur.x+","+cur.y+")");btxt.textContent="15분 머무름";if(wait>900){wait=0;elapsedMin+=15;i++;bubble.setAttribute("opacity",0);}}
+      else{
+        var tx=nodes[s.n].x,ty=nodes[s.n].y,dx=tx-cur.x,dy=ty-cur.y,dist=Math.hypot(dx,dy),step=dt*(s.detour?0.09:0.16);
+        if(s.detour){bubble.setAttribute("opacity",1);bubble.setAttribute("transform","translate("+cur.x+","+cur.y+")");btxt.textContent="골목 확인";}
+        if(dist<=step){cur={x:tx,y:ty};i++;if(!s.detour)elapsedMin+=0;}
+        else{cur={x:cur.x+dx/dist*step,y:cur.y+dy/dist*step};}
+        elapsedMin+=Math.min(step,dist)*(s.detour?10/ (detourLenPx()*2):minPerPx);
+        car.setAttribute("transform","translate("+cur.x+","+cur.y+") rotate("+(Math.atan2(dy,dx)*57.3)+")");
+        if(s.detour){if(!s.back){dpts.push(cur.x+","+cur.y);detourLine.setAttribute("points",dpts.join(" "));}}
+        else{pts.push(cur.x+","+cur.y);trail.setAttribute("points",pts.join(" "));if(i<seq.length&&!seq[i].detour)bubble.setAttribute("opacity",seq[i].stop?1:0);}
+        if(s.detour&&dpts.length===0){var o=nodes[detourNodes[0]];dpts.push(o.x+","+o.y);}
+      }
+      stat.innerHTML="경과 <b>"+Math.round(elapsedMin)+"</b>분";
+      raf=requestAnimationFrame(frame);
+    }
+    cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);
+  }
+  function detourLenPx(){var L=0;for(var k=1;k<detourNodes.length;k++){var a=nodes[detourNodes[k-1]],b=nodes[detourNodes[k]];L+=Math.hypot(a.x-b.x,a.y-b.y);}return L||1;}
+  var raf=0;
+  car.setAttribute("transform","translate("+nodes[STATION].x+","+nodes[STATION].y+")");
+  document.getElementById("btn-drive").addEventListener("click",anim);
+  svg.addEventListener("click",anim);
+  var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){anim();io.disconnect();}},{threshold:.5});io.observe(svg);
+})();
+
+// 그림 4: 직접 돌려보는 1년
+(function(){
+  var svg=base(document.getElementById("fig4"));
+  var heat=el("g",{},svg);station(svg);spotLabels(svg);
+  var p=.01,sim=makeSim(p,11),timer=0;
+  var dEl=document.getElementById("sim-days"),tEl=document.getElementById("sim-trips");
+  function draw(){drawHeat(heat,sim.visits,sim.days,sim.days>0);dEl.textContent=sim.days;tEl.textContent=sim.trips.toLocaleString();}
+  function run(n,speed){cancelAnimationFrame(timer);var left=Math.min(n,365-sim.days);(function step(){var k=Math.min(speed,left);for(var q=0;q<k;q++)sim.day();left-=k;draw();if(left>0)timer=requestAnimationFrame(step);})();}
+  document.getElementById("sim-day").onclick=function(){run(1,1);};
+  document.getElementById("sim-month").onclick=function(){run(30,1);};
+  document.getElementById("sim-year").onclick=function(){run(365,4);};
+  document.getElementById("sim-reset").onclick=function(){cancelAnimationFrame(timer);sim=makeSim(p,11+Math.floor(Math.random()*1000));draw();};
+  [].forEach.call(document.querySelectorAll("#sim-p button"),function(b){b.onclick=function(){[].forEach.call(document.querySelectorAll("#sim-p button"),function(x){x.classList.remove("on");});b.classList.add("on");p=parseFloat(b.dataset.p);cancelAnimationFrame(timer);sim=makeSim(p,11);draw();};});
+  draw();
+})();
+
+// 그림 5: 접근성 지수 지도
+(function(){
+  var svg=base(document.getElementById("fig5"));
+  var v=yearSim.visits,vmax=0;edges.forEach(function(e){vmax=Math.max(vmax,v[e.id]);});
+  var dj=dijkstra(STATION,function(e){return e.len;}),tmax=0;
+  var rows=edges.map(function(e){var t=Math.min(dj.dist[e.a],dj.dist[e.b])+e.len/2;tmax=Math.max(tmax,t);return{e:e,t:t};});
+  var dmax=0;rows.forEach(function(r){r.d=demandAt(r.e.mx,r.e.my);dmax=Math.max(dmax,r.d);});
+  rows.forEach(function(r){
+    var e=r.e,pres=Math.log1p(v[e.id])/Math.log1p(vmax),acc=1-r.t/tmax;
+    var f=0;CCTV.concat(BELLS).forEach(function(c){if(Math.hypot(c.x-e.mx,c.y-e.my)<70)f++;});f=Math.min(1,f/4);
+    r.idx=100*(.5*pres+.3*acc+.2*f);r.pri=(r.d/dmax)*(100-r.idx)/100;
+  });
+  var PAL=["#B2182B","#D6604D","#A0567F","#6A5BA8","#4393C3","#2166AC"];
+  function col(x){return PAL[Math.min(5,Math.floor(x/(100/6)))];}
+  var g=el("g",{"stroke-linecap":"round"},svg);
+  rows.forEach(function(r){line(g,r.e,col(r.idx),r.e.main?5.4:3);});
+  var pick=[];rows.slice().sort(function(a,b){return b.pri-a.pri;}).forEach(function(r){if(pick.length>=4)return;if(pick.every(function(q){return Math.hypot(q.e.mx-r.e.mx,q.e.my-r.e.my)>70;}))pick.push(r);});
+  pick.forEach(function(r){var x=r.e.mx,y=r.e.my;el("path",{d:"M"+x+" "+(y-17)+" L"+(x+10)+" "+(y-1)+" L"+(x-10)+" "+(y-1)+"Z",fill:"#FFD65A",stroke:"#1E2738","stroke-width":1.6,"stroke-linejoin":"round"},svg);var t=el("text",{x:x,y:y-4.5,"text-anchor":"middle","font-size":10,"font-weight":700,fill:"#1E2738","font-family":"IBM Plex Mono, monospace"},svg);t.textContent="!";});
+  station(svg);spotLabels(svg);
+  var leg=document.getElementById("leg5");
+  leg.innerHTML=PAL.map(function(c,k){return'<span><i style="background:'+c+'"></i>'+(k===0?"잘 안 닿음":k===5?"잘 닿음":"")+"</span>";}).join("")+'<span><i style="background:#FFD65A;border:1px solid #1E2738;width:12px;height:11px;clip-path:polygon(50% 0,100% 100%,0 100%);border-radius:0"></i>우선 검토 후보</span>';
+})();
+
+/* ───────── 6. 계산기 ───────── */
+(function(){
+  var ids=["c-p","c-a","c-f","c-d"],ins=ids.map(function(i){return document.getElementById(i);});
+  function upd(){
+    var p=+ins[0].value,a=+ins[1].value,f=+ins[2].value,d=+ins[3].value;
+    var idx=.5*p+.3*a+.2*f,pri=d*(100-idx)/100;
+    document.getElementById("c-idx").textContent=idx.toFixed(1);
+    document.getElementById("c-g").style.left=idx+"%";
+    document.getElementById("c-pri").textContent=pri.toFixed(1)+" / 100";
+    var s;
+    if(d<30)s="주변에 사람이 적어서, 자원이 덜 닿더라도 먼저 볼 순서는 뒤쪽입니다.";
+    else if(pri>=45)s="사람은 많은데 순찰·시설이 덜 닿습니다. <b>우선 검토 후보</b>에 가까운 구간입니다. 단, 위험하다는 뜻은 아닙니다.";
+    else if(idx>=60)s="순찰과 방범시설이 잘 닿는 편입니다. 사람이 많아도 상대적으로 여유가 있습니다.";
+    else s="중간 정도입니다. 방문빈도나 시설을 조금만 바꿔도 순위가 움직일 수 있는 구간입니다.";
+    document.getElementById("c-say").innerHTML=s;
+  }
+  ins.forEach(function(x){x.addEventListener("input",upd);});upd();
+})();
+
+/* ───────── 7. 목차·진행 막대 ───────── */
+(function(){
+  var links=[].slice.call(document.querySelectorAll("#toc a")),bar=document.getElementById("progress");
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute("href"));});
+  function onScroll(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?h.scrollTop/max*100:0)+"%";
+    var cur=0;secs.forEach(function(s,k){if(s.getBoundingClientRect().top<160)cur=k;});
+    links.forEach(function(a,k){a.classList.toggle("on",k===cur);});
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+})();
+})();
+
+</script>
+</body>
+</html>
