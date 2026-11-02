@@ -154,6 +154,7 @@ a.region-card .rs b { white-space:nowrap; }
 table.gov a { display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; }
 #gapTable { min-width:900px; }
 .doc .filters select { min-height:44px; border-radius:3px; }
+.doc .filters select:focus-visible { outline:3px solid #2f6dc4; outline-offset:3px; }
 .doc .filter-foot button { min-height:44px; border-radius:3px; }
 .formula { line-height:1.8; overflow-wrap:anywhere; }
 .flow .step p { line-height:1.85; }
