@@ -3,92 +3,74 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="전국 1,682만 도로 구간의 순찰·접근성·방범시설을 분석한 모형 기반 안전지도. 6개 권역별 안전지수와 치안시설 공백 지점을 탐색합니다." />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/style.css" />
+<script src="assets/site-ui.js" defer></script>
 <title>전국 경찰 순찰 안전지도</title>
 </head>
-<body>
-<div class="topline"></div>
-<nav class="gnb">
-  <a class="site" href="index.html"><span class="mark">&#9733;</span>전국 경찰 순찰 안전지도</a>
-  <div class="links">
-    <a href="index.html" class="on">개요</a>
-    <a href="sudogwon/index.html">수도권</a>
-    <a href="gangwon/index.html">강원권</a>
-    <a href="chungcheong/index.html">충청권</a>
-    <a href="honam/index.html">호남권</a>
-    <a href="yeongnam/index.html">영남권</a>
-    <a href="jeju/index.html">제주권</a>
-    <a href="report.html">시설 공백</a>
-    <a href="method.html">방법론</a>
-  </div>
+<body class="home-page">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<header class="site-header">
+<nav class="gnb" aria-label="주 메뉴">
+  <a class="site" href="index.html"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 20 6v6c0 4.5-4.1 7.5-8 9-3.9-1.5-8-4.5-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.6"/><path d="m8.5 12 2.3 2.3 4.7-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <div class="links" id="site-links"><a href="index.html" class="on" aria-current="page">개요</a>
+<a href="sudogwon/index.html">수도권</a>
+<a href="gangwon/index.html">강원권</a>
+<a href="chungcheong/index.html">충청권</a>
+<a href="honam/index.html">호남권</a>
+<a href="yeongnam/index.html">영남권</a>
+<a href="jeju/index.html">제주권</a>
+<a href="report.html">시설 공백</a>
+<a href="method.html">방법론</a></div>
 </nav>
-<div class="doc">
-  <div class="doc-head">
-    <div class="doc-no">PATROL SAFETY MAP — PROJECT REPORT (WEB)</div>
-    <h1>전국 경찰 순찰 안전지도</h1>
-    <p class="doc-sub">순찰경로 최적화와 1년 규모 가상순찰 시뮬레이션 결과를 결합하여 전국 도로 구간별 복합 안전지수(0~100)를 산출하고, 치안 사각지대를 사전 진단하는 시각화 웹.</p>
-  </div>
-
-  <section class="sec">
-    <h2>1. 권역별 안전지도</h2>
-    <p>전국 <b>16,827,281개 도로 구간</b>을 6개 권역으로 나누어 제공합니다. <b>안전지수는 전국 공통 산식으로 일괄 산출</b>되어 권역 간 직접 비교가 가능하며, 권역 구분은 표시·배포 단위입니다.</p>
-    <div class="region-grid">
-      <a class="region-card" href="sudogwon/index.html">
-        <h3>수도권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>6,635,897</b></span><span>안전지수 평균 <b>54.7</b></span><span>경찰관서 <b>679</b></span><span>CCTV·비상벨 <b>198,290</b></span></div>
-      </a>
-      <a class="region-card" href="gangwon/index.html">
-        <h3>강원권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>889,479</b></span><span>안전지수 평균 <b>48.5</b></span><span>경찰관서 <b>106</b></span><span>CCTV·비상벨 <b>32,320</b></span></div>
-      </a>
-      <a class="region-card" href="chungcheong/index.html">
-        <h3>충청권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>2,322,134</b></span><span>안전지수 평균 <b>49.3</b></span><span>경찰관서 <b>237</b></span><span>CCTV·비상벨 <b>56,782</b></span></div>
-      </a>
-      <a class="region-card" href="honam/index.html">
-        <h3>호남권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>2,381,373</b></span><span>안전지수 평균 <b>51.3</b></span><span>경찰관서 <b>408</b></span><span>CCTV·비상벨 <b>46,799</b></span></div>
-      </a>
-      <a class="region-card" href="yeongnam/index.html">
-        <h3>영남권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>4,185,607</b></span><span>안전지수 평균 <b>52.8</b></span><span>경찰관서 <b>591</b></span><span>CCTV·비상벨 <b>126,173</b></span></div>
-      </a>
-      <a class="region-card" href="jeju/index.html">
-        <h3>제주권<span class="go">지도 열기 &rarr;</span></h3>
-        <div class="rs"><span>도로 구간 <b>412,791</b></span><span>안전지수 평균 <b>42.3</b></span><span>경찰관서 <b>26</b></span><span>CCTV·비상벨 <b>1,849</b></span></div>
-      </a>
-    </div>
-  </section>
-
-  <section class="sec">
-    <h2>2. 전국 데이터 현황</h2>
-    <table class="gov">
-      <tr><th>도로 구간(엣지)</th><th>경찰관서</th><th>CCTV</th><th>비상벨</th><th>사각지대 후보</th><th>안전지수 평균</th></tr>
-      <tr><td>16,827,281</td><td>2,047</td><td>374,079</td><td>88,134</td><td>1,226</td><td>52.4 / 100</td></tr>
-    </table>
-    <div class="formula">안전지수(0~100) = 0.5 × 순찰방문빈도 + 0.3 × 응답접근성(관서→지점 도달시간) + 0.2 × 시설커버리지(CCTV·비상벨)</div>
-    <div class="formula">사각지대 우선도 = 정규화 인구수요 × ( 100 − 안전지수 ) / 100</div>
-    <p class="small">인구 수요(생활인구·100m 격자)는 높은데 순찰·접근성·시설을 종합한 안전지수가 낮은 구간, 곧 <b>'수요 대비 보호 공급이 얇은'</b> 구간을 사각지대 우선순위로 도출합니다. (뺄셈 잔차가 아닌 exposure × vulnerability 곱)</p>
-    
-  </section>
-
-  <section class="sec">
-    <h2>3. 지도 이용 안내</h2>
-    <table class="gov">
-      <tr><th style="width:180px">항목</th><th>내용</th></tr>
-      <tr><td>도로 색상</td><td><span style="color:#c00018;font-weight:700">짙은 빨강(위험)</span> → 보라(중간) → <span style="color:#2f54c8;font-weight:700">파랑(안전)</span>, 6개 이산 구간. 도로(엣지)에만 채색.</td></tr>
-      <tr><td>상세 로드</td><td>줌인 후 화면을 <b>3초 이상 정지</b>하면 해당 영역만 로드(과부하 방지). 줌 단계별로 큰길 &rarr; 세부길 순으로 표시.</td></tr>
-      <tr><td>마커(핀)</td><td>경찰관서(지구대·파출소)에만 사용.</td></tr>
-      <tr><td>CCTV·비상벨</td><td>충분히 줌인했을 때 화면 범위 안의 지점만 &#128247;·&#128276; 아이콘으로 표시.</td></tr>
-      <tr><td>사각지대</td><td>좌측 패널 토글 시 우선순위 상위 구간을 &#9888; 아이콘으로 표시.</td></tr>
-    </table>
-  </section>
-</div>
-<footer class="gfoot">
-  <span><b>전국 경찰 순찰 안전지도</b> — 순찰경로 최적화·가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</span>
-  <span>안전지수는 전국 공통 산식(0~100)이며, 권역 구분은 표시·배포 단위입니다.</span>
-  <span>연구·분석용 산출물로 실제 치안 상황과 다를 수 있습니다.</span>
-</footer>
+</header><main class="home" id="main">
+<section class="hero" aria-labelledby="hero-title">
+<div class="hero-copy"><div class="eyebrow"><span aria-hidden="true"></span>전국 공통 기준 · 모형 기반 분석</div><h1 id="hero-title">도로 위의 안전을,<br><span>데이터로 읽다.</span></h1><p class="hero-lead">순찰, 응답접근성, 방범시설을 하나의 지표로.<br>전국 도로의 보호 수준과 치안 사각지대를 탐색합니다.</p><div class="hero-actions"><a class="button primary" href="#regions">권역별 지도 탐색 <span aria-hidden="true">→</span></a><a class="button secondary" href="method.html">분석 방법 알아보기 <span aria-hidden="true">↗</span></a></div></div>
+<aside class="national-score" aria-label="전국 평균 안전지수"><div class="score-card-head"><span>전국 평균 안전지수</span><span class="data-badge">NATIONAL</span></div><div class="score-value">52.4<span>/ 100</span></div><p class="score-sub">전국 16,827,281개 도로 구간 기준</p><div class="score-scale" aria-label="안전지수 범례: 0에서 100, 빨강에서 보라를 거쳐 파랑으로 6개 구간"><div class="lg-bar"><i style="background:#c00018"></i><i style="background:#e3403c"></i><i style="background:#b13fa1"></i><i style="background:#7c3fbd"></i><i style="background:#4f46d6"></i><i style="background:#2f54c8"></i></div><span class="score-marker" style="left:52.4%" aria-hidden="true"></span></div><div class="lg-cap"><span>낮음 0</span><span>50</span><span>높음 100</span></div><p class="score-note">순찰·접근성·시설을 결합한 모형 기반 지표입니다.<br>실제 범죄 위험이나 실시간 치안 수준을 뜻하지 않습니다.</p></aside>
+</section>
+<section class="national-stats" aria-label="전국 데이터 현황"><div><span>분석 도로 구간</span><strong>16,827,281</strong><small>10m 단위 도로망</small></div><div><span>경찰관서</span><strong>2,047</strong><small>지구대 · 파출소</small></div><div><span>CCTV</span><strong>374,079</strong><small>방범시설 지점</small></div><div><span>비상벨</span><strong>88,134</strong><small>방범시설 지점</small></div><div><span>사각지대 후보</span><strong>1,226</strong><small>인구 수요와 보호 수준 분석</small></div></section>
+<section class="home-section" id="regions" aria-labelledby="regions-title"><div class="section-heading"><div><div class="eyebrow">EXPLORE BY REGION</div><h2 id="regions-title">어느 지역을 살펴볼까요?</h2><p>6개 권역, 하나의 기준. 권역별 지도를 열어 도로 단위로 확인하세요.</p></div><span class="section-note"><i aria-hidden="true"></i>전국 평균 52.4</span></div><div class="region-grid"><a class="region-card" href="sudogwon/index.html">
+<div class="region-card-top"><span class="region-code">01</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>수도권</h3><p class="region-area">서울 · 인천 · 경기</p>
+<div class="region-score"><span>평균 안전지수</span><strong>54.7<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:54.7%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>6,635,897</dd></div><div><dt>경찰관서</dt><dd>679</dd></div><div><dt>CCTV·비상벨</dt><dd>198,290</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a><a class="region-card" href="gangwon/index.html">
+<div class="region-card-top"><span class="region-code">02</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>강원권</h3><p class="region-area">강원특별자치도</p>
+<div class="region-score"><span>평균 안전지수</span><strong>48.5<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:48.5%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>889,479</dd></div><div><dt>경찰관서</dt><dd>106</dd></div><div><dt>CCTV·비상벨</dt><dd>32,320</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a><a class="region-card" href="chungcheong/index.html">
+<div class="region-card-top"><span class="region-code">03</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>충청권</h3><p class="region-area">대전 · 세종 · 충북 · 충남</p>
+<div class="region-score"><span>평균 안전지수</span><strong>49.3<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:49.3%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>2,322,134</dd></div><div><dt>경찰관서</dt><dd>237</dd></div><div><dt>CCTV·비상벨</dt><dd>56,782</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a><a class="region-card" href="honam/index.html">
+<div class="region-card-top"><span class="region-code">04</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>호남권</h3><p class="region-area">광주 · 전북 · 전남</p>
+<div class="region-score"><span>평균 안전지수</span><strong>51.3<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:51.3%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>2,381,373</dd></div><div><dt>경찰관서</dt><dd>408</dd></div><div><dt>CCTV·비상벨</dt><dd>46,799</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a><a class="region-card" href="yeongnam/index.html">
+<div class="region-card-top"><span class="region-code">05</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>영남권</h3><p class="region-area">부산 · 대구 · 울산 · 경북 · 경남</p>
+<div class="region-score"><span>평균 안전지수</span><strong>52.8<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:52.8%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>4,185,607</dd></div><div><dt>경찰관서</dt><dd>591</dd></div><div><dt>CCTV·비상벨</dt><dd>126,173</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a><a class="region-card" href="jeju/index.html">
+<div class="region-card-top"><span class="region-code">06</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+<h3>제주권</h3><p class="region-area">제주특별자치도</p>
+<div class="region-score"><span>평균 안전지수</span><strong>42.3<small> / 100</small></strong></div>
+<div class="region-meter" aria-hidden="true"><i style="width:42.3%"></i><span></span></div>
+<dl class="region-stats"><div><dt>도로 구간</dt><dd>412,791</dd></div><div><dt>경찰관서</dt><dd>26</dd></div><div><dt>CCTV·비상벨</dt><dd>1,849</dd></div></dl>
+<span class="card-link">지도 탐색 <span aria-hidden="true">→</span></span></a></div><p class="region-footnote">카드의 막대는 평균 안전지수, 세로선은 전국 평균(52.4)을 나타냅니다. 권역은 표시·배포 단위이며 지수는 전국 공통 산식으로 산출합니다.</p></section>
+<section class="method-overview home-section" aria-labelledby="method-title"><div class="section-heading"><div><div class="eyebrow">HOW IT WORKS</div><h2 id="method-title">세 가지 지표로 읽는 도로 안전</h2><p>순찰경로 최적화와 1년 규모 가상순찰 시뮬레이션 결과를 결합합니다.</p></div><a class="text-link" href="method.html">방법론 자세히 보기 <span aria-hidden="true">↗</span></a></div><div class="method-grid"><article><span class="weight">50<small>%</small></span><h3>순찰방문빈도</h3><p>가상순찰이 각 도로 구간을 얼마나 자주 방문했는지 분석합니다.</p></article><article><span class="weight">30<small>%</small></span><h3>응답접근성</h3><p>경찰관서에서 해당 도로 지점까지 도달하는 시간을 반영합니다.</p></article><article><span class="weight">20<small>%</small></span><h3>시설커버리지</h3><p>도로 주변 CCTV·비상벨 등 방범시설의 보호 범위를 살펴봅니다.</p></article></div><div class="blindspot-note"><div><h3>수요는 높은데, 보호가 부족한 곳은?</h3><p>사각지대 우선도 = 정규화 인구수요 × (100 − 안전지수) / 100</p></div><a class="text-link" href="report.html">시설 공백 보고서 <span aria-hidden="true">→</span></a></div><p class="small">생활인구·100m 격자 기반 인구수요와 취약도를 곱해 사각지대 우선순위를 도출합니다. 시설 공백 보고서는 후보 중 반경 내 CCTV·비상벨이 없는 지점을 별도로 집계합니다.</p></section>
+<section class="home-section guide-section" aria-labelledby="guide-title"><div class="section-heading"><div><div class="eyebrow">MAP GUIDE</div><h2 id="guide-title">지도, 이렇게 살펴보세요</h2></div></div><div class="guide-grid"><article><span class="step-number">01</span><h3>지역을 선택하고 확대</h3><p>권역 지도를 확대하면 큰길부터 세부길 순으로 도로 지수가 나타납니다.</p></article><article><span class="step-number">02</span><h3>화면을 3초간 멈추기</h3><p>이동을 멈추면 현재 화면의 데이터만 불러옵니다. 로드 상태를 확인하세요.</p></article><article><span class="step-number">03</span><h3>필요한 시설만 표시</h3><p>경찰관서와 사각지대를 선택하고, 더 확대해 CCTV·비상벨을 확인하세요.</p></article></div><p class="small">도로 색상은 짙은 빨강(위험) → 보라(중간) → 파랑(안전)의 6개 구간입니다. 핀은 경찰관서에 사용하며, CCTV·비상벨은 확대 시 화면 안의 지점에만 표시됩니다.</p></section>
+</main>
+<footer class="gfoot"><div><b>전국 경찰 순찰 안전지도</b><p>순찰경로 최적화 · 가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</p></div><p>전국 공통 산식(0~100) · 권역은 표시·배포 단위<br>연구·분석용 산출물로 실제 치안 상황과 다를 수 있습니다.</p></footer>
 </body>
 </html>
