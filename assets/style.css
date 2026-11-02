@@ -207,15 +207,15 @@ footer.gfoot { font-size:12.5px; line-height:1.75; gap:10px 24px; padding:18px 2
   .doc-head { padding:22px 2px 20px; }
   .doc-head .doc-no { font-size:11px; line-height:1.8; letter-spacing:.7px; }
   .doc-head h1 { font-size:25px; letter-spacing:-.5px; }
-  .doc-head .doc-sub { font-size:14px; }
+  .doc-head .doc-sub { font-size:16px; }
   section.sec { margin-top:32px; }
   section.sec > h2 { font-size:19px; }
-  p { font-size:14px; }
+  p { font-size:16px; }
   .region-grid { grid-template-columns:1fr; gap:14px; margin-top:18px; }
   a.region-card { padding:17px; }
   a.region-card h3 { font-size:19px; }
-  a.region-card .rs { font-size:13px; gap:6px 12px; }
-  .small { font-size:12.5px; }
+  a.region-card .rs { font-size:14px; gap:6px 12px; }
+  .small { font-size:13.5px; }
   .formula { font-size:12px; padding:12px; }
   .note { font-size:12.5px; padding:12px; }
   .table-scroll table.gov { min-width:520px; font-size:13px; }
