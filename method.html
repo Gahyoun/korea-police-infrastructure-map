@@ -9,23 +9,24 @@
 <script src="assets/site-ui.js" defer></script>
 </head>
 <body>
+<div class="topline"></div>
 <a class="skip-link" href="#main">본문 바로가기</a>
-<header class="site-header">
 <nav class="gnb" aria-label="주 메뉴">
-  <a class="site" href="index.html"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 20 6v6c0 4.5-4.1 7.5-8 9-3.9-1.5-8-4.5-8-9V6l8-3Z" stroke="currentColor" stroke-width="1.6"/><path d="m8.5 12 2.3 2.3 4.7-4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>전국 경찰 순찰 안전지도</a>
-  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-  <div class="links" id="site-links"><a href="index.html">개요</a>
-<a href="sudogwon/index.html">수도권</a>
-<a href="gangwon/index.html">강원권</a>
-<a href="chungcheong/index.html">충청권</a>
-<a href="honam/index.html">호남권</a>
-<a href="yeongnam/index.html">영남권</a>
-<a href="jeju/index.html">제주권</a>
-<a href="report.html">시설 공백</a>
-<a href="method.html" class="on" aria-current="page">방법론</a></div>
+  <a class="site" href="index.html"><span class="mark" aria-hidden="true">&#9733;</span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+  <div class="links" id="site-links">
+    <a href="index.html">개요</a>
+    <a href="sudogwon/index.html">수도권</a>
+    <a href="gangwon/index.html">강원권</a>
+    <a href="chungcheong/index.html">충청권</a>
+    <a href="honam/index.html">호남권</a>
+    <a href="yeongnam/index.html">영남권</a>
+    <a href="jeju/index.html">제주권</a>
+    <a href="report.html">시설 공백</a>
+    <a href="method.html" class="on" aria-current="page">방법론</a>
+  </div>
 </nav>
-</header>
-<main class="doc" id="main">
+<main class="doc" id="main" tabindex="-1">
   <div class="doc-head">
     <div class="doc-no">METHODOLOGY</div>
     <h1>방법론</h1>
@@ -91,8 +92,9 @@
 
   <section class="sec">
     <h2>2. 입력 자료</h2>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="표 내용. 작은 화면에서는 좌우로 스크롤할 수 있습니다."><table class="gov">
-      <tr><th style="width:230px">자료</th><th>출처·내용</th><th style="width:150px">역할</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="분석 입력 자료와 출처·역할 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">분석 입력 자료와 출처·역할</caption>
+      <tr><th scope="col" style="width:230px">자료</th><th scope="col">출처·내용</th><th scope="col" style="width:150px">역할</th></tr>
       <tr><td>100m 인구격자</td><td>SGIS 센서스 100m 인구 래스터 (252개 시군구 경계 결합)</td><td>수요 그리드</td></tr>
       <tr><td>시간대 유동인구</td><td>지자체·통신사 공개 유동인구, 8개 3시간 슬롯 profile</td><td>시간대 가중</td></tr>
       <tr><td>경찰관서·자원</td><td>전국 지구대·파출소 2,047개 주소, 경찰서별 정원, 순찰차 보유 현황</td><td>capacity 제약</td></tr>
@@ -104,8 +106,9 @@
   <section class="sec">
     <h2>3. 안전지수 식</h2>
     <div class="formula">SafetyIndex = 100 × ( 0.5 × patrol_norm + 0.3 × access_safe_norm + 0.2 × facility_norm )</div>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="표 내용. 작은 화면에서는 좌우로 스크롤할 수 있습니다."><table class="gov">
-      <tr><th style="width:170px">항</th><th>산출 방식</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="안전지수 구성 항목의 산출 방식 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">안전지수 구성 항목의 산출 방식</caption>
+      <tr><th scope="col" style="width:170px">항</th><th scope="col">산출 방식</th></tr>
       <tr><td>patrol_norm</td><td>가상순찰 1년 누적 도로 구간 방문 횟수(visits_year)의 전국 기준 정규화 값</td></tr>
       <tr><td>access_safe_norm</td><td>최근접 관서로부터의 도달시간(access_s)을 안전 방향으로 정규화한 값</td></tr>
       <tr><td>facility_norm</td><td>구간 주변 CCTV·비상벨 등 방범시설 수(facility_count)의 정규화 값</td></tr>
@@ -116,8 +119,9 @@
 
   <section class="sec">
     <h2>4. 지도 구현 방식 (과부하 방지)</h2>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="표 내용. 작은 화면에서는 좌우로 스크롤할 수 있습니다."><table class="gov">
-      <tr><th style="width:230px">기법</th><th>내용</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="지도 표시 및 데이터 불러오기 방식 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">지도 표시 및 데이터 불러오기 방식</caption>
+      <tr><th scope="col" style="width:230px">기법</th><th scope="col">내용</th></tr>
       <tr><td>권역 분할 배포</td><td>전국 데이터를 6개 권역 페이지로 분할. 안전지수 산식·정규화는 전국 공통.</td></tr>
       <tr><td>격자 타일 분할</td><td>도로 엣지를 격자 타일 JSON으로 분할(밀집 권역은 더 잘게). 전국을 한 번에 그리지 않음.</td></tr>
       <tr><td>뷰포트 지연로딩 + LOD</td><td>줌인 상태에서 화면에 걸치는 타일만 fetch하고 캐시. 중간 줌은 큰길만, 최대 줌인에서 세부길 포함, 광역에서는 도로 미표시.</td></tr>
@@ -132,6 +136,10 @@
     <p>· 안전지수는 모형 기반 진단 지표로, 실제 치안 수준·범죄 발생과 동일하지 않다.</p>
   </section>
 </main>
-<footer class="gfoot"><div><b>전국 경찰 순찰 안전지도</b><p>순찰경로 최적화 · 가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</p></div><p>전국 공통 산식(0~100) · 권역은 표시·배포 단위<br>연구·분석용 산출물로 실제 치안 상황과 다를 수 있습니다.</p></footer>
+<footer class="gfoot">
+  <span><b>전국 경찰 순찰 안전지도</b> — 순찰경로 최적화·가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</span>
+  <span>안전지수는 전국 공통 산식(0~100)이며, 권역 구분은 표시·배포 단위입니다.</span>
+  <span>연구·분석용 산출물로 실제 치안 상황과 다를 수 있습니다.</span>
+</footer>
 </body>
 </html>

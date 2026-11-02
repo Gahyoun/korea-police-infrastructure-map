@@ -29,8 +29,9 @@
     panel.open = false;
   }
   const region = document.getElementById('regionSelect');
-  if (region) {
-    region.addEventListener('change', function () {
+  const regionGo = document.getElementById('regionGo');
+  if (region && regionGo) {
+    regionGo.addEventListener('click', function () {
       window.location.assign(region.value);
     });
   }
