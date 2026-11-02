@@ -7,14 +7,17 @@
 <link rel="stylesheet" href="assets/style.css" />
 <title>수도권 안전지도 — 전국 경찰 순찰 안전지도</title>
 <style>html,body{height:100%}body{overflow:hidden}</style>
+<script src="../assets/site-ui.js" defer></script>
 </head>
-<body>
+<body class="map-page">
 <div class="topline"></div>
-<nav class="gnb">
-  <a class="site" href="../index.html"><span class="mark">&#9733;</span>전국 경찰 순찰 안전지도</a>
-  <div class="links">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<nav class="gnb" aria-label="주 메뉴">
+  <a class="site" href="../index.html"><span class="mark" aria-hidden="true">&#9733;</span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+  <div class="links" id="site-links">
     <a href="../index.html">개요</a>
-    <a href="../sudogwon/index.html" class="on">수도권</a>
+    <a href="../sudogwon/index.html" class="on" aria-current="page">수도권</a>
     <a href="../gangwon/index.html">강원권</a>
     <a href="../chungcheong/index.html">충청권</a>
     <a href="../honam/index.html">호남권</a>
@@ -24,11 +27,12 @@
     <a href="../method.html">방법론</a>
   </div>
 </nav>
-<div class="map-wrap">
-  <div id="map"></div>
+<main class="map-wrap" id="main" tabindex="-1" aria-label="수도권 안전지도">
+  <div id="map" aria-label="수도권 지도"></div>
 
-  <div class="panel">
-    <h2>수도권 · 복합 안전지수 (0~100)</h2>
+  <details class="panel" open>
+    <summary><h2>수도권 · 복합 안전지수 (0~100)<span class="panel-toggle" aria-hidden="true"></span></h2></summary>
+    <div class="panel-body">
     <span class="small">도로 구간(엣지) 단위 채색 · 전국 공통 산식</span>
     <div class="lg-bar" id="lgBar"></div>
     <div class="lg-cap"><span>위험 0</span><span>50</span><span>안전 100</span></div>
@@ -39,9 +43,11 @@
       <label><input type="checkbox" id="lyBlind"> &#9888; 사각지대 상위 구간</label>
     </div>
     <div class="small" style="margin-top:9px">줌 단계별 표시: 광역(도로 없음) &rarr; <b>큰길</b> &rarr; <b>세부길 포함</b>.<br>화면을 <b>3초간 정지</b>하면 해당 영역만 로드됩니다.</div>
-  </div>
+    <div class="region-switch"><label for="regionSelect">권역 선택</label><select id="regionSelect"><option value="../sudogwon/index.html" selected>수도권</option><option value="../gangwon/index.html">강원권</option><option value="../chungcheong/index.html">충청권</option><option value="../honam/index.html">호남권</option><option value="../yeongnam/index.html">영남권</option><option value="../jeju/index.html">제주권</option></select><button type="button" id="regionGo">이동</button></div>
+    </div>
+  </details>
 
-  <div id="status">로딩...</div>
+  <div id="status" role="status" aria-live="polite" aria-atomic="true">로딩...</div>
 
   <div id="keybox" class="keybox">
     <div class="inner">
@@ -50,7 +56,7 @@
       <p class="small">file:// 로 직접 연 경우 데이터 fetch가 차단됩니다. <code>python3 -m http.server</code> 또는 GitHub Pages로 확인하십시오.</p>
     </div>
   </div>
-</div>
+</main>
 
 <script>
 "use strict";

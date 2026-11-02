@@ -6,12 +6,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/style.css" />
 <title>방법론 — 전국 경찰 순찰 안전지도</title>
+<script src="assets/site-ui.js" defer></script>
 </head>
 <body>
 <div class="topline"></div>
-<nav class="gnb">
-  <a class="site" href="index.html"><span class="mark">&#9733;</span>전국 경찰 순찰 안전지도</a>
-  <div class="links">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<nav class="gnb" aria-label="주 메뉴">
+  <a class="site" href="index.html"><span class="mark" aria-hidden="true">&#9733;</span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+  <div class="links" id="site-links">
     <a href="index.html">개요</a>
     <a href="sudogwon/index.html">수도권</a>
     <a href="gangwon/index.html">강원권</a>
@@ -20,10 +23,10 @@
     <a href="yeongnam/index.html">영남권</a>
     <a href="jeju/index.html">제주권</a>
     <a href="report.html">시설 공백</a>
-    <a href="method.html" class="on">방법론</a>
+    <a href="method.html" class="on" aria-current="page">방법론</a>
   </div>
 </nav>
-<div class="doc">
+<main class="doc" id="main" tabindex="-1">
   <div class="doc-head">
     <div class="doc-no">METHODOLOGY</div>
     <h1>방법론</h1>
@@ -89,39 +92,42 @@
 
   <section class="sec">
     <h2>2. 입력 자료</h2>
-    <table class="gov">
-      <tr><th style="width:230px">자료</th><th>출처·내용</th><th style="width:150px">역할</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="분석 입력 자료와 출처·역할 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">분석 입력 자료와 출처·역할</caption>
+      <tr><th scope="col" style="width:230px">자료</th><th scope="col">출처·내용</th><th scope="col" style="width:150px">역할</th></tr>
       <tr><td>100m 인구격자</td><td>SGIS 센서스 100m 인구 래스터 (252개 시군구 경계 결합)</td><td>수요 그리드</td></tr>
       <tr><td>시간대 유동인구</td><td>지자체·통신사 공개 유동인구, 8개 3시간 슬롯 profile</td><td>시간대 가중</td></tr>
       <tr><td>경찰관서·자원</td><td>전국 지구대·파출소 2,047개 주소, 경찰서별 정원, 순찰차 보유 현황</td><td>capacity 제약</td></tr>
       <tr><td>도로 topology</td><td>큰길(4차선↑)·샛길 구분 도로망 — 전국 약 1,682만 구간(10m 이산화 기준)</td><td>경로·시뮬레이션</td></tr>
       <tr><td>방범 행정지표</td><td>CCTV 약 37만, 비상벨 약 8.8만 지점</td><td>시설커버리지</td></tr>
-    </table>
+    </table></div>
   </section>
 
   <section class="sec">
     <h2>3. 안전지수 식</h2>
     <div class="formula">SafetyIndex = 100 × ( 0.5 × patrol_norm + 0.3 × access_safe_norm + 0.2 × facility_norm )</div>
-    <table class="gov">
-      <tr><th style="width:170px">항</th><th>산출 방식</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="안전지수 구성 항목의 산출 방식 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">안전지수 구성 항목의 산출 방식</caption>
+      <tr><th scope="col" style="width:170px">항</th><th scope="col">산출 방식</th></tr>
       <tr><td>patrol_norm</td><td>가상순찰 1년 누적 도로 구간 방문 횟수(visits_year)의 전국 기준 정규화 값</td></tr>
       <tr><td>access_safe_norm</td><td>최근접 관서로부터의 도달시간(access_s)을 안전 방향으로 정규화한 값</td></tr>
       <tr><td>facility_norm</td><td>구간 주변 CCTV·비상벨 등 방범시설 수(facility_count)의 정규화 값</td></tr>
-    </table>
+    </table></div>
     <div class="formula">BlindspotPriority = demand_norm × ( 100 − SafetyIndex ) / 100</div>
     <p class="small"><b>사각지대 우선도</b>는 정규화 인구수요(demand_norm, 생활인구·100m 격자 기반)와 취약도(100 − 안전지수)의 곱으로 산출한다. 즉 <b>인구 수요는 높은데 순찰·접근성·시설을 종합한 안전지수가 낮은 구간</b>, 곧 '수요 대비 보호 공급이 얇은' 구간을 우선순위로 도출한다. 뺄셈 잔차가 아닌 exposure × vulnerability(곱) 방식이며, 인구 수요만 사용하고 범죄·112 통계는 미반영한다.</p>
   </section>
 
   <section class="sec">
     <h2>4. 지도 구현 방식 (과부하 방지)</h2>
-    <table class="gov">
-      <tr><th style="width:230px">기법</th><th>내용</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="지도 표시 및 데이터 불러오기 방식 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">지도 표시 및 데이터 불러오기 방식</caption>
+      <tr><th scope="col" style="width:230px">기법</th><th scope="col">내용</th></tr>
       <tr><td>권역 분할 배포</td><td>전국 데이터를 6개 권역 페이지로 분할. 안전지수 산식·정규화는 전국 공통.</td></tr>
       <tr><td>격자 타일 분할</td><td>도로 엣지를 격자 타일 JSON으로 분할(밀집 권역은 더 잘게). 전국을 한 번에 그리지 않음.</td></tr>
       <tr><td>뷰포트 지연로딩 + LOD</td><td>줌인 상태에서 화면에 걸치는 타일만 fetch하고 캐시. 중간 줌은 큰길만, 최대 줌인에서 세부길 포함, 광역에서는 도로 미표시.</td></tr>
       <tr><td>정지 3초 트리거</td><td>드래그·줌 이동 중에는 로드하지 않고, 화면이 3초 이상 정지했을 때만 로드.</td></tr>
       <tr><td>시설 아이콘 한정 표시</td><td>CCTV·비상벨은 줌인 + 화면 범위 내 지점만 이모지로 표시 (핀·숫자 클러스터 미사용).</td></tr>
-    </table>
+    </table></div>
   </section>
 
   <section class="sec">
@@ -129,7 +135,7 @@
     <p>· 순찰차 보유 대수는 일부 지역만 확보되어, 그 외 지역은 경찰 정원·지구대 수·청별 차량 대수를 proxy capacity로 사용한다.</p>
     <p>· 안전지수는 모형 기반 진단 지표로, 실제 치안 수준·범죄 발생과 동일하지 않다.</p>
   </section>
-</div>
+</main>
 <footer class="gfoot">
   <span><b>전국 경찰 순찰 안전지도</b> — 순찰경로 최적화·가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</span>
   <span>안전지수는 전국 공통 산식(0~100)이며, 권역 구분은 표시·배포 단위입니다.</span>

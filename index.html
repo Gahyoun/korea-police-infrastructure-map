@@ -6,13 +6,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/style.css" />
 <title>전국 경찰 순찰 안전지도</title>
+<script src="assets/site-ui.js" defer></script>
 </head>
 <body>
 <div class="topline"></div>
-<nav class="gnb">
-  <a class="site" href="index.html"><span class="mark">&#9733;</span>전국 경찰 순찰 안전지도</a>
-  <div class="links">
-    <a href="index.html" class="on">개요</a>
+<a class="skip-link" href="#main">본문 바로가기</a>
+<nav class="gnb" aria-label="주 메뉴">
+  <a class="site" href="index.html"><span class="mark" aria-hidden="true">&#9733;</span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+  <div class="links" id="site-links">
+    <a href="index.html" class="on" aria-current="page">개요</a>
     <a href="sudogwon/index.html">수도권</a>
     <a href="gangwon/index.html">강원권</a>
     <a href="chungcheong/index.html">충청권</a>
@@ -23,14 +26,14 @@
     <a href="method.html">방법론</a>
   </div>
 </nav>
-<div class="doc">
+<main class="doc" id="main" tabindex="-1">
   <div class="doc-head">
     <div class="doc-no">PATROL SAFETY MAP — PROJECT REPORT (WEB)</div>
     <h1>전국 경찰 순찰 안전지도</h1>
     <p class="doc-sub">순찰경로 최적화와 1년 규모 가상순찰 시뮬레이션 결과를 결합하여 전국 도로 구간별 복합 안전지수(0~100)를 산출하고, 치안 사각지대를 사전 진단하는 시각화 웹.</p>
   </div>
 
-  <section class="sec">
+  <section class="sec" id="regions">
     <h2>1. 권역별 안전지도</h2>
     <p>전국 <b>16,827,281개 도로 구간</b>을 6개 권역으로 나누어 제공합니다. <b>안전지수는 전국 공통 산식으로 일괄 산출</b>되어 권역 간 직접 비교가 가능하며, 권역 구분은 표시·배포 단위입니다.</p>
     <div class="region-grid">
@@ -63,28 +66,30 @@
 
   <section class="sec">
     <h2>2. 전국 데이터 현황</h2>
-    <table class="gov">
-      <tr><th>도로 구간(엣지)</th><th>경찰관서</th><th>CCTV</th><th>비상벨</th><th>사각지대 후보</th><th>안전지수 평균</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="전국 도로·경찰관서·방범시설·사각지대와 평균 안전지수 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">전국 도로·경찰관서·방범시설·사각지대와 평균 안전지수</caption>
+      <tr><th scope="col">도로 구간(엣지)</th><th scope="col">경찰관서</th><th scope="col">CCTV</th><th scope="col">비상벨</th><th scope="col">사각지대 후보</th><th scope="col">안전지수 평균</th></tr>
       <tr><td>16,827,281</td><td>2,047</td><td>374,079</td><td>88,134</td><td>1,226</td><td>52.4 / 100</td></tr>
-    </table>
+    </table></div>
     <div class="formula">안전지수(0~100) = 0.5 × 순찰방문빈도 + 0.3 × 응답접근성(관서→지점 도달시간) + 0.2 × 시설커버리지(CCTV·비상벨)</div>
     <div class="formula">사각지대 우선도 = 정규화 인구수요 × ( 100 − 안전지수 ) / 100</div>
     <p class="small">인구 수요(생활인구·100m 격자)는 높은데 순찰·접근성·시설을 종합한 안전지수가 낮은 구간, 곧 <b>'수요 대비 보호 공급이 얇은'</b> 구간을 사각지대 우선순위로 도출합니다. (뺄셈 잔차가 아닌 exposure × vulnerability 곱)</p>
-    
+
   </section>
 
   <section class="sec">
     <h2>3. 지도 이용 안내</h2>
-    <table class="gov">
-      <tr><th style="width:180px">항목</th><th>내용</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="지도 표시 항목별 이용 안내 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">지도 표시 항목별 이용 안내</caption>
+      <tr><th scope="col" style="width:180px">항목</th><th scope="col">내용</th></tr>
       <tr><td>도로 색상</td><td><span style="color:#c00018;font-weight:700">짙은 빨강(위험)</span> → 보라(중간) → <span style="color:#2f54c8;font-weight:700">파랑(안전)</span>, 6개 이산 구간. 도로(엣지)에만 채색.</td></tr>
       <tr><td>상세 로드</td><td>줌인 후 화면을 <b>3초 이상 정지</b>하면 해당 영역만 로드(과부하 방지). 줌 단계별로 큰길 &rarr; 세부길 순으로 표시.</td></tr>
       <tr><td>마커(핀)</td><td>경찰관서(지구대·파출소)에만 사용.</td></tr>
       <tr><td>CCTV·비상벨</td><td>충분히 줌인했을 때 화면 범위 안의 지점만 &#128247;·&#128276; 아이콘으로 표시.</td></tr>
       <tr><td>사각지대</td><td>좌측 패널 토글 시 우선순위 상위 구간을 &#9888; 아이콘으로 표시.</td></tr>
-    </table>
+    </table></div>
   </section>
-</div>
+</main>
 <footer class="gfoot">
   <span><b>전국 경찰 순찰 안전지도</b> — 순찰경로 최적화·가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</span>
   <span>안전지수는 전국 공통 산식(0~100)이며, 권역 구분은 표시·배포 단위입니다.</span>

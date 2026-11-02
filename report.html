@@ -17,12 +17,15 @@
   #gapTable td.r { text-align: right; font-variant-numeric: tabular-nums; }
 </style>
 <title>치안시설 공백 지점 보고 — 전국 경찰 순찰 안전지도</title>
+<script src="assets/site-ui.js" defer></script>
 </head>
 <body>
 <div class="topline"></div>
-<nav class="gnb">
-  <a class="site" href="index.html"><span class="mark">&#9733;</span>전국 경찰 순찰 안전지도</a>
-  <div class="links">
+<a class="skip-link" href="#main">본문 바로가기</a>
+<nav class="gnb" aria-label="주 메뉴">
+  <a class="site" href="index.html"><span class="mark" aria-hidden="true">&#9733;</span>전국 경찰 순찰 안전지도</a>
+  <button class="menu-toggle" type="button" aria-controls="site-links" aria-expanded="false"><span>메뉴</span><span class="menu-icon" aria-hidden="true">☰</span></button>
+  <div class="links" id="site-links">
     <a href="index.html">개요</a>
     <a href="sudogwon/index.html">수도권</a>
     <a href="gangwon/index.html">강원권</a>
@@ -30,11 +33,11 @@
     <a href="honam/index.html">호남권</a>
     <a href="yeongnam/index.html">영남권</a>
     <a href="jeju/index.html">제주권</a>
-    <a href="report.html" class="on">시설 공백</a>
+    <a href="report.html" class="on" aria-current="page">시설 공백</a>
     <a href="method.html">방법론</a>
   </div>
 </nav>
-<div class="doc">
+<main class="doc" id="main" tabindex="-1">
   <div class="doc-head">
     <div class="doc-no">FACILITY GAP REPORT — 고수요 · 방범시설 부재 지점</div>
     <h1>치안시설 공백 지점 보고</h1>
@@ -43,24 +46,26 @@
 
   <section class="sec">
     <h2>1. 요약</h2>
-    <table class="gov">
-      <tr><th>공백 지점(전체)</th><th>공백 보유 관서 수</th><th>최고 인구수요</th><th>공백 지점 평균 안전지수</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="치안시설 공백 지점 요약 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">치안시설 공백 지점 요약</caption>
+      <tr><th scope="col">공백 지점(전체)</th><th scope="col">공백 보유 관서 수</th><th scope="col">최고 인구수요</th><th scope="col">공백 지점 평균 안전지수</th></tr>
       <tr><td>598</td><td>31</td><td>6,088</td><td>32.6 / 100</td></tr>
-    </table>
+    </table></div>
     <div class="note">선정 기준: 사각지대 후보 중 <b>facility_count = 0</b>(반경 내 CCTV·비상벨 없음) 지점을 관서별로 집계. <b>[지도 확인]</b>을 누르면 해당 관서의 공백 지점 전체가 지도에 &#9888;로 표시됩니다.</div>
     <p class="small">전체 지점 목록 내려받기: <a href="assets/facility_gaps.csv" download>facility_gaps.csv</a></p>
   </section>
 
   <section class="sec">
     <h2>2. 권역별 분포</h2>
-    <table class="gov">
-      <tr><th>권역</th><th>공백 지점 수</th><th>비중</th></tr>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="시설 공백 지점의 권역별 분포 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov">
+      <caption class="sr-only">시설 공백 지점의 권역별 분포</caption>
+      <tr><th scope="col">권역</th><th scope="col">공백 지점 수</th><th scope="col">비중</th></tr>
       <tr><td>수도권</td><td>285</td><td>47.7%</td></tr>
       <tr><td>강원권</td><td>22</td><td>3.7%</td></tr>
       <tr><td>충청권</td><td>203</td><td>33.9%</td></tr>
       <tr><td>호남권</td><td>14</td><td>2.3%</td></tr>
       <tr><td>영남권</td><td>74</td><td>12.4%</td></tr>
-    </table>
+    </table></div>
   </section>
 
   <section class="sec">
@@ -82,14 +87,15 @@
       <button id="fReset">필터 초기화</button>
       <span class="small">관서 단위 집계 · 표는 최대 500행</span>
     </div>
-    <table class="gov" id="gapTable">
+    <div class="table-scroll" tabindex="0" role="region" aria-label="관할 관서별 시설 공백 지점 조회 결과 — 작은 화면에서 좌우로 스크롤할 수 있습니다."><table class="gov" id="gapTable">
+      <caption class="sr-only">관할 관서별 시설 공백 지점 조회 결과</caption>
       <thead>
-        <tr><th style="width:46px">순위</th><th>권역</th><th>시도</th><th>경찰서</th><th>관서</th><th style="width:80px">공백 지점</th><th style="width:96px">최고 인구수요</th><th style="width:80px">최저 안전</th><th style="width:74px">우선순위</th><th style="width:96px">지도</th></tr>
+        <tr><th scope="col" style="width:46px">순위</th><th scope="col">권역</th><th scope="col">시도</th><th scope="col">경찰서</th><th scope="col">관서</th><th scope="col" style="width:80px">공백 지점</th><th scope="col" style="width:96px">최고 인구수요</th><th scope="col" style="width:80px">최저 안전</th><th scope="col" style="width:74px">우선순위</th><th scope="col" style="width:96px">지도</th></tr>
       </thead>
       <tbody id="gapBody"></tbody>
-    </table>
+    </table></div>
   </section>
-</div>
+</main>
 <footer class="gfoot">
   <span><b>전국 경찰 순찰 안전지도</b> — 순찰경로 최적화·가상순찰(ABM) 시뮬레이션 기반 도로 안전지수 시각화</span>
   <span>안전지수는 전국 공통 산식(0~100)이며, 권역 구분은 표시·배포 단위입니다.</span>
