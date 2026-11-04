@@ -26,7 +26,7 @@ OUT = Path(sys.argv[2]).resolve()
 
 AUTHOR = "김가현"
 AFFIL = "테크노베이션파트너스 · 경상국립대학교 졸업생"
-DATE = "2026. 10. 26."
+DATE = "2026. 11. 04."
 TITLE = "진주시 무인순찰로봇 배치 세미 시뮬레이션"
 SUBTITLE = "준지도학습 기반 ABM과 현장 배치(FDE) 설계 — 경상국립대학교 소재지 진주 사례"
 RUN = "진주시 무인순찰로봇 배치 세미 시뮬레이션 · 준지도학습 ABM"
@@ -37,13 +37,68 @@ def b64(path, mime):
     return f"data:{mime};base64," + base64.b64encode(Path(path).read_bytes()).decode("ascii")
 
 
+# ── 용량 최적화: 래스터 그림을 다시 인코딩해 내장한다(원본 파일은 그대로 둠) ──
+# 그림(PNG)은 무손실 WebP로 바꿔 픽셀은 그대로 두고 용량만 줄인다(손실 압축은 PDF에서 오히려 커짐).
+# 사진(JPG)은 표지 표시 폭(62mm)에 맞춰 긴 변을 줄이고 JPEG로 다시 저장한다(PDF에 그대로 들어감).
+PHOTO_MAX_PX = 1000
+PHOTO_QUALITY = 85
+
+
+def raster_b64(path):
+    try:
+        import io
+        from PIL import Image
+    except ImportError:  # Pillow가 없으면 원본 그대로 내장
+        return None
+    im = Image.open(path)
+    buf = io.BytesIO()
+    if Path(path).suffix.lower() == ".jpg":
+        im = im.convert("RGB")
+        im.thumbnail((PHOTO_MAX_PX, PHOTO_MAX_PX), Image.LANCZOS)
+        im.save(buf, "JPEG", quality=PHOTO_QUALITY, optimize=True, progressive=True)
+        mime = "image/jpeg"
+    else:
+        im.save(buf, "WEBP", lossless=True, method=6)
+        mime = "image/webp"
+    return f"data:{mime};base64," + base64.b64encode(buf.getvalue()).decode("ascii")
+
+
 def img(path, cls, alt):
-    mime = {".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg"}[Path(path).suffix.lower()]
-    return f'<img class="{cls}" alt="{html.escape(alt)}" src="{b64(path, mime)}">'
+    suffix = Path(path).suffix.lower()
+    mime = {".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg"}[suffix]
+    src = (raster_b64(path) if suffix in (".png", ".jpg") else None) or b64(path, mime)
+    return f'<img class="{cls}" alt="{html.escape(alt)}" src="{src}">'
 
 
-fonts = "@font-face{font-family:'Noto Sans KR';src:url('%s') format('woff2');font-weight:100 900;font-style:normal;font-display:block}" % \
-    b64(TPL / "assets/fonts/NotoSansKR-Variable.subset.woff2", "font/woff2")
+FONT = TPL / "assets/fonts/NotoSansKR-Variable.subset.woff2"
+
+
+def font_face(text):
+    """본문에 실제로 쓰인 글자만 남긴 woff2를 만든다(가변 굵기 축 유지). fontTools가 없으면 원본 폰트."""
+    data = FONT.read_bytes()
+    try:
+        import io
+        from fontTools import subset
+        from fontTools.ttLib import TTFont
+        chars = set(text) | set(map(chr, range(0x20, 0x7F))) | set("–—·“”‘’…×≥≤±→←↔∪★")
+        opts = subset.Options()
+        opts.flavor = "woff2"
+        opts.layout_features = ["*"]
+        opts.name_IDs = ["*"]
+        font = TTFont(io.BytesIO(data))
+        sub = subset.Subsetter(opts)
+        sub.populate(unicodes={ord(c) for c in chars})
+        sub.subset(font)
+        buf = io.BytesIO()
+        font.flavor = "woff2"
+        font.save(buf)
+        data = buf.getvalue()
+    except Exception as e:  # noqa: BLE001 — 서브셋 실패 시 전체 폰트로 대체
+        print("font subset skipped:", e, file=sys.stderr)
+    src = "data:font/woff2;base64," + base64.b64encode(data).decode("ascii")
+    return ("@font-face{font-family:'Noto Sans KR';src:url('%s') format('woff2');"
+            "font-weight:100 900;font-style:normal;font-display:block}" % src)
+
 theme = (TPL / "assets/theme.css").read_text(encoding="utf-8")
 
 # 연구보고서 쪽(이 문서용 추가 규칙). 토큰·서체는 theme.css를 그대로 쓴다.
@@ -149,8 +204,9 @@ photo = img(NOTE / "figures/photo_20261022_songdo.jpg", "photo", "제12회 과�
 
 facts = [("일자", "2026. 10. 22.(목)"), ("시간", "12:30 – 13:30"), ("장소", "송도컨벤시아 (인천광역시 연수구)"),
          ("계기", "제12회 과학치안 아이디어 공모전 시상식<br>주최 경찰청·과학기술정보통신부 · 주관 과학치안진흥센터·한국과학기술연구원"),
-         ("작성", f"{AUTHOR} ({AFFIL})"), ("대상 지역", "경상남도 진주시 · 지구대 5, 파출소 8 · 도로 10m 구간 117,351개"),
-         ("문서", f"연구보고서 초안 v0.3 · {DATE}")]
+         ("작성", f"{AUTHOR} ({AFFIL})"), ("보완", "장지현 (경상국립대학교 학부연구생) · 7장 공공데이터 활용 방안"),
+         ("대상 지역", "경상남도 진주시 · 지구대 5, 파출소 8 · 도로 10m 구간 117,351개"),
+         ("문서", f"연구보고서 초안 v0.4 · {DATE}")]
 cover = f"""
 <main class="sheet a4 cover" data-export-page>
  <div class="form-frame"><div class="slogan-gap">{slogan}</div>
@@ -184,11 +240,14 @@ page_tpl = f"""
 doc = f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="gnu-template-kind" content="report"><title>{TITLE} — {SUBTITLE}</title>
-<style>{fonts}{kcss}{theme}{report_css}</style></head><body>
+<style>FONTFACE{kcss}{theme}{report_css}</style></head><body>
 {cover}
 <div id="flow">{body}{sign_block}</div>
 {page_tpl}
 </body></html>
 """
+# 글자 집합은 태그·base64를 걷어 낸 본문 텍스트에서 모은다(쪽 번호 숫자는 ASCII에 포함).
+visible = html.unescape(re.sub(r"<[^>]+>|data:[^\"')]+", " ", doc))
+doc = doc.replace("FONTFACE", font_face(visible), 1)
 OUT.write_text(doc, encoding="utf-8")
 print(OUT, f"{len(doc) / 1e6:.1f} MB")
